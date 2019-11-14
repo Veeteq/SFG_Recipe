@@ -16,7 +16,10 @@ import com.wojnarowicz.sfg.recipe.service.RecipeCategoryService;
 import com.wojnarowicz.sfg.recipe.service.RecipeService;
 import com.wojnarowicz.sfg.recipe.service.UnitOfMeasureService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEvent>{
 
     private RecipeCategoryService recipeCategoryService;
@@ -32,7 +35,7 @@ public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEve
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        
+        log.debug("RecipeDataLoader: loading data...");
         Recipe guacamole = createGuacamole();
         recipeService.save(guacamole);
     }

@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.wojnarowicz.sfg.recipe.service.RecipeService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class RecipeController {
 
     private final RecipeService recipeService;
@@ -17,9 +20,9 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @RequestMapping(path = "/recipes")
+    @RequestMapping(path = "/recipes")    
     public String getRecipes(Model model) {
-        
+        log.debug("RecipeController: getRecipes");
         model.addAttribute("recipes", recipeService.findAll());
         
         return "recipes";

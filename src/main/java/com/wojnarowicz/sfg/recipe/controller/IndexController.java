@@ -11,7 +11,10 @@ import com.wojnarowicz.sfg.recipe.domain.UnitOfMeasure;
 import com.wojnarowicz.sfg.recipe.repository.RecipeCategoryRepository;
 import com.wojnarowicz.sfg.recipe.repository.UnitOfMeasureRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class IndexController {
 
     private RecipeCategoryRepository recipeCategoryRepository;
@@ -26,6 +29,7 @@ public class IndexController {
 
     @RequestMapping({"", "/", "/index", "/index.html"})
     public String getIndexPage() {
+        log.debug("IndexController: getIndexPage");
         Optional<RecipeCategory> recipeCategoryOpt = recipeCategoryRepository.findByName("American");
         Optional<UnitOfMeasure> unitOfMeasureOpt = unitOfMeasureRepository.findByName("Tablespoon");
         

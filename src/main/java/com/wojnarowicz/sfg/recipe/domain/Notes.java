@@ -8,10 +8,15 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table(name="notes")
 @AttributeOverride(name = "id", column = @Column(name = "note_id"))
 @SequenceGenerator(name="default_seq", sequenceName="note_seq", allocationSize=1)
+@Getter
+@Setter
 public class Notes extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
@@ -21,20 +26,4 @@ public class Notes extends BaseEntity {
     
     @Lob
     private String notes;
-
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
 }

@@ -7,7 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import lombok.Data;
+
 @MappedSuperclass
+@Data
 public abstract class BaseEntity implements Serializable, Comparable<BaseEntity> {
 
     private static final long serialVersionUID = 1L;
@@ -16,14 +19,6 @@ public abstract class BaseEntity implements Serializable, Comparable<BaseEntity>
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="default_seq")
     private Long id;
     
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Override
     public int compareTo(BaseEntity other) {
         if (other instanceof BaseEntity) {
@@ -31,5 +26,4 @@ public abstract class BaseEntity implements Serializable, Comparable<BaseEntity>
         }
         return -1;
     }
-
 }

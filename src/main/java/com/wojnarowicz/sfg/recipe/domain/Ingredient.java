@@ -11,10 +11,15 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table(name="ingredients")
 @AttributeOverride(name = "id", column = @Column(name = "ingredient_id"))
 @SequenceGenerator(name="default_seq", sequenceName="ingredient_seq", allocationSize=1)
+@Getter
+@Setter
 public class Ingredient extends NamedEntity {
 
     private static final long serialVersionUID = 1L;
@@ -34,29 +39,5 @@ public class Ingredient extends NamedEntity {
         this.amount = amount;
         this.uom = uom;
         this.recipe = recipe;
-    }
-
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public UnitOfMeasure getUom() {
-        return uom;
-    }
-
-    public void setUom(UnitOfMeasure uom) {
-        this.uom = uom;
     }
 }

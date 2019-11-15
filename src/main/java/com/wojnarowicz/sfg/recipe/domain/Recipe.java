@@ -18,7 +18,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -27,6 +30,9 @@ import lombok.Setter;
 @SequenceGenerator(name="default_seq", sequenceName="recipe_seq", allocationSize=1)
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Recipe extends NamedEntity {
 
     private static final long serialVersionUID = 1L;
@@ -58,11 +64,8 @@ public class Recipe extends NamedEntity {
                joinColumns = @JoinColumn(name = "recipe_id"), 
                inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<RecipeCategory> categories = new HashSet<>();
-    
-    
-    public Recipe() {
-    }
 
+    @Builder
     public Recipe(String name) {
         super.setName(name);
     }

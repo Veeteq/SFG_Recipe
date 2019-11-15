@@ -20,7 +20,7 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @RequestMapping(path = "/recipes")    
+    @RequestMapping(path = {"/recipes","/recipes/"})    
     public String getRecipes(Model model) {
         log.debug("RecipeController: getRecipes");
         model.addAttribute("recipes", recipeService.findAll());

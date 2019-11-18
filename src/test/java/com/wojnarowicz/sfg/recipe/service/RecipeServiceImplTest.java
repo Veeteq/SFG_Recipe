@@ -1,14 +1,16 @@
 package com.wojnarowicz.sfg.recipe.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 
 import com.wojnarowicz.sfg.recipe.domain.Recipe;
@@ -22,7 +24,7 @@ public class RecipeServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
     
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         
@@ -38,7 +40,7 @@ public class RecipeServiceImplTest {
         when(recipeRepository.findAll()).thenReturn(recipesSet);
         
         Set<Recipe> recipes = recipeService.findAll();
-        assertEquals(1, recipes.size());
+        Assertions.assertEquals(1, recipes.size());
         verify(recipeRepository, times(1)).findAll();
     }
 }

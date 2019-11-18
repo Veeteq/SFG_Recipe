@@ -47,7 +47,7 @@ public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEve
         RecipeCategory mexican = recipeCategoryService.findByName("Mexican");
         
         Recipe guacamole = Recipe.builder()
-                .name("Perfect Guacamole")
+                .name("Perfect Guacamole")                
                 .cookTime(10)
                 .difficulty(Difficulty.EASY)
                 .prepTime(10)

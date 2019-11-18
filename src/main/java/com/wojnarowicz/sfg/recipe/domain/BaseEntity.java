@@ -8,9 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @MappedSuperclass
 @Data
+@NoArgsConstructor
+@SuperBuilder
 public abstract class BaseEntity implements Serializable, Comparable<BaseEntity> {
 
     private static final long serialVersionUID = 1L;

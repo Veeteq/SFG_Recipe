@@ -8,8 +8,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "items")
@@ -18,6 +21,9 @@ import lombok.Setter;
 @SequenceGenerator(name = "default_seq", sequenceName = "item_seq", allocationSize = 1)
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 public class Item extends NamedEntity {
 
     private static final long serialVersionUID = 1L;

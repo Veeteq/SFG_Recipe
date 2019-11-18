@@ -1,6 +1,7 @@
 package com.wojnarowicz.sfg.recipe.bootstrap;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,11 +13,14 @@ import org.springframework.stereotype.Component;
 
 import com.wojnarowicz.sfg.recipe.domain.Category;
 import com.wojnarowicz.sfg.recipe.domain.CategoryType;
+import com.wojnarowicz.sfg.recipe.domain.Income;
 import com.wojnarowicz.sfg.recipe.domain.Item;
 import com.wojnarowicz.sfg.recipe.domain.User;
 import com.wojnarowicz.sfg.recipe.service.CategoryService;
+import com.wojnarowicz.sfg.recipe.service.IncomeService;
 import com.wojnarowicz.sfg.recipe.service.ItemService;
 import com.wojnarowicz.sfg.recipe.service.UserService;
+import com.wojnarowicz.sfg.recipe.utils.DateUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,17 +28,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BudgetDataLoader implements CommandLineRunner {
 
-    private final static Path baseDirectory = Paths.get("C:\\Users\\la289dm\\Downloads\\incomes");
+    private final static Path baseDirectory = Paths.get("C:\\Users\\la289dm\\Downloads");
     
     private final CategoryService categoryService;
     private final ItemService itemService;
     private final UserService userService;
+    private final IncomeService incomeService;
     
     @Autowired
-    public BudgetDataLoader(CategoryService categoryService, ItemService itemService, UserService userService) {
+    public BudgetDataLoader(CategoryService categoryService, ItemService itemService, UserService userService, IncomeService incomeService) {
         this.categoryService = categoryService;
         this.itemService = itemService;
         this.userService = userService;
+        this.incomeService = incomeService;
     }
 
     @Override
@@ -42,6 +48,7 @@ public class BudgetDataLoader implements CommandLineRunner {
         loadCategories();
         loadItems();
         loadUsers();
+        loadIncomes(false);
     }
 
     private void loadCategories() {
@@ -84,6 +91,26 @@ public class BudgetDataLoader implements CommandLineRunner {
         log.debug("Users loaded...");
     }
     
+    private void loadIncomes(boolean toBeLoaded) {
+        if(toBeLoaded) {
+            Path path = baseDirectory.resolve("incomes.txt");
+            getStreamFromFile(path).forEach(line -> {
+                String[] values = line.split("\t");
+                String comment = values[4].equals("null") ? null : values[4];
+                Income income = Income.builder()
+                        .operationDate(DateUtil.parse(values[1]))
+                        .item(itemService.findById(Long.parseLong(values[2])))
+                        .amount(new BigDecimal(values[3]))
+                        .comment(comment)
+                        .user(userService.findById(Long.parseLong(values[5])))
+                        .build();
+                income.setId(Long.valueOf(values[0]));
+                incomeService.save(income);
+            });      
+            log.debug("Incomes loaded...");
+        }
+    }
+ 
     private Stream<String> getStreamFromFile(Path path){
         try {
             return Files.lines(path);

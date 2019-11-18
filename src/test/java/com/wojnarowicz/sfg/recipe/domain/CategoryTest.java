@@ -1,15 +1,14 @@
 package com.wojnarowicz.sfg.recipe.domain;
 
-import static org.junit.Assert.*;
-
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class CategoryTest {
 
     Category category;
     
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         category = new Category();
     }
@@ -18,7 +17,7 @@ public class CategoryTest {
     public void testGetType() {
         CategoryType type = CategoryType.Exp;
         category.setType(type);
-        assertEquals(type, category.getType());
+        Assertions.assertEquals(type, category.getType());
     }
 
     @Test
@@ -29,14 +28,14 @@ public class CategoryTest {
     public void testGetName() {
         String name = "test name";
         category.setName(name);
-        assertEquals(name, category.getName());
+        Assertions.assertEquals(name, category.getName());
     }
 
     @Test
     public void testGetId() {
         Long id = 4l;
         category.setId(id);
-        assertEquals(id, category.getId());
+        Assertions.assertEquals(id, category.getId());
     }
 
 }

@@ -23,6 +23,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name="recipes")
@@ -32,7 +33,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class Recipe extends NamedEntity {
 
     private static final long serialVersionUID = 1L;
@@ -49,6 +50,7 @@ public class Recipe extends NamedEntity {
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
     
+    @Builder.Default
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")    
     private Set<Ingredient> ingredients = new HashSet<>();
     
@@ -59,13 +61,13 @@ public class Recipe extends NamedEntity {
     @JoinColumn(name = "notes_id")
     private Notes notes;
 
+    @Builder.Default
     @ManyToMany
     @JoinTable(name = "recipe_category", 
                joinColumns = @JoinColumn(name = "recipe_id"), 
                inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<RecipeCategory> categories = new HashSet<>();
 
-    @Builder
     public Recipe(String name) {
         super.setName(name);
     }

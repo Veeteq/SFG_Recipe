@@ -25,6 +25,6 @@ public class RecipeController {
         log.debug("RecipeController: getRecipes");
         model.addAttribute("recipes", recipeService.findAll());
         
-        return "recipes";
+        return "recipes/recipes";
     }
 }

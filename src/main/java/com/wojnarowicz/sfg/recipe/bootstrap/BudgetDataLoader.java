@@ -46,10 +46,12 @@ public class BudgetDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        loadCategories();
-        loadItems();
-        loadUsers();
-        loadIncomes(false);
+        if(Files.exists(baseDirectory)) {
+            loadCategories();
+            loadItems();
+            loadUsers();
+            loadIncomes(false);
+        }
     }
 
     private void loadCategories() {
@@ -57,10 +59,11 @@ public class BudgetDataLoader implements CommandLineRunner {
     	//String file = "F:\\categories.txt";
         getStreamFromFile(path).forEach(line -> {
             String[] values = line.split("\t");
-            Category category = new Category();
-            category.setId(Long.valueOf(values[0]));
-            category.setName(values[1]);
-            category.setType(CategoryType.valueOf(values[2]));
+            Category category = Category.builder()
+            .id(Long.valueOf(values[0]))
+            .name(values[1])        
+            .categoryType(CategoryType.valueOf(values[2]))
+            .build();
             categoryService.save(category);
         });      
         log.debug("Categories loaded...");
@@ -71,10 +74,11 @@ public class BudgetDataLoader implements CommandLineRunner {
         //String file = "F:\\categories.txt";
         getStreamFromFile(path).forEach(line -> {
             String[] values = line.split("\t");
-            Item item = new Item();
-            item.setId(Long.valueOf(values[0]));
-            item.setCategory(categoryService.findById(Long.parseLong(values[1])));
-            item.setName(values[2]);
+            Item item = Item.builder()
+            .id(Long.valueOf(values[0]))
+            .category(categoryService.findById(Long.parseLong(values[1])))
+            .name(values[2])
+            .build();
             itemService.save(item);
         });      
         log.debug("Items loaded...");
@@ -84,9 +88,10 @@ public class BudgetDataLoader implements CommandLineRunner {
         Path path = baseDirectory.resolve("users.txt");
         getStreamFromFile(path).forEach(line -> {
             String[] values = line.split("\t");
-            User user = new User();
-            user.setId(Long.valueOf(values[0]));
-            user.setName(values[1]);
+            User user = User.builder()
+            .id(Long.valueOf(values[0]))
+            .name(values[1])
+            .build();
             userService.save(user);
         });      
         log.debug("Users loaded...");

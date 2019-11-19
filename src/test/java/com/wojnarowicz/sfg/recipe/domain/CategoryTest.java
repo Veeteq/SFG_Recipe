@@ -16,8 +16,8 @@ public class CategoryTest {
     @Test
     public void testGetType() {
         CategoryType type = CategoryType.Exp;
-        category.setType(type);
-        Assertions.assertEquals(type, category.getType());
+        category.setCategoryType(type);
+        Assertions.assertEquals(type, category.getCategoryType());
     }
 
     @Test

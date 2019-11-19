@@ -1,6 +1,8 @@
 package com.wojnarowicz.sfg.recipe.bootstrap;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -26,25 +28,42 @@ public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEve
     private UnitOfMeasureService unitOfMeasureService;
     private RecipeService recipeService;
     
+    private final UnitOfMeasure tablespoon;
+    private final UnitOfMeasure teaspoon;
+    private final UnitOfMeasure piece;
+    
+    private final RecipeCategory mexican;
+    private final RecipeCategory american;
+    
     @Autowired
     public RecipeDataLoader(RecipeService recipeService, RecipeCategoryService recipeCategoryService, UnitOfMeasureService unitOfMeasureService) {
         this.recipeService = recipeService;
         this.recipeCategoryService = recipeCategoryService;
         this.unitOfMeasureService = unitOfMeasureService;
+        
+        tablespoon = this.unitOfMeasureService.findByName("Tablespoon");
+        teaspoon = this.unitOfMeasureService.findByName("Teaspoon");
+        piece = this.unitOfMeasureService.findByName("Piece");
+        
+        mexican = this.recipeCategoryService.findByName("Mexican");
+        american = this.recipeCategoryService.findByName("American");
     }
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        log.debug("RecipeDataLoader: loading data...");
+        log.info("RecipeDataLoader: loading data...");
+        List<Recipe> recipes = new ArrayList<>();
+        
         Recipe guacamole = createGuacamole();
-        recipeService.save(guacamole);
+        recipes.add(guacamole);
+        
+        Recipe tacos = createTacos();
+        recipes.add(tacos);
+        
+        recipeService.saveAll(recipes);
     }
 
     private Recipe createGuacamole() {
-        UnitOfMeasure tablespoon = unitOfMeasureService.findByName("Tablespoon");
-        UnitOfMeasure piece = unitOfMeasureService.findByName("Piece");
-        
-        RecipeCategory mexican = recipeCategoryService.findByName("Mexican");
         
         Recipe guacamole = Recipe.builder()
                 .name("Perfect Guacamole")                
@@ -83,5 +102,23 @@ public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEve
         guacamole.addCategory(mexican);
         
         return guacamole;
+    }
+    
+    private Recipe createTacos() {
+    	Recipe tacos = Recipe.builder()
+                .name("Spicy Grilled Chicken Tacos")                
+                .cookTime(9)
+                .difficulty(Difficulty.MODERATE)
+                .prepTime(20)
+                .servings(4)
+                .url("https://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/")
+                .build();
+
+    	tacos.addIngredient(Ingredient.builder().name("Ancho Chili Powder").amount(new BigDecimal(2)).uom(tablespoon).recipe(tacos).build());
+    	tacos.addIngredient(Ingredient.builder().name("Dried Oregano").amount(new BigDecimal(1)).uom(teaspoon).recipe(tacos).build());
+        
+    	tacos.addCategory(american);
+    	tacos.addCategory(mexican);
+    	return tacos;
     }
 }

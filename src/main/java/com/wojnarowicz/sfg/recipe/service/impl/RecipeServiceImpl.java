@@ -30,6 +30,12 @@ public class RecipeServiceImpl implements RecipeService {
     }
     
     @Override
+    public void saveAll(Iterable<Recipe> recipes) {
+        log.debug("RecipeService: save");
+        recipeRepository.saveAll(recipes);
+    }
+    
+    @Override
     public Set<Recipe> findAll() {
         log.debug("RecipeService: findAll");
         Set<Recipe> recipes = new HashSet<>();

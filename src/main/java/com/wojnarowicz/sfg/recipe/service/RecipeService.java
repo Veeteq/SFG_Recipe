@@ -9,5 +9,5 @@ public interface RecipeService {
     Recipe save(Recipe recipe);
 
     Set<Recipe> findAll();
-
+    void saveAll(Iterable<Recipe> recipes);
 }

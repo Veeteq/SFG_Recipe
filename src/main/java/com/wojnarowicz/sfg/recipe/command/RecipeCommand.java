@@ -15,6 +15,7 @@ import lombok.Setter;
 public class RecipeCommand {
     private Long id;
     private String name;
+    private String title;
     private String description;
     private Integer prepTime;
     private Integer cookTime;

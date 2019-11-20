@@ -140,6 +140,11 @@ public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEve
                 .url("https://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/")
                 .build();
 
+    	Notes notes = new Notes();
+    	notes.setNotes("Notes");
+    	notes.setRecipe(tacos);
+    	tacos.setNotes(notes);
+    	
     	tacos.addIngredient(Ingredient.builder().name("Ancho Chili Powder").amount(new BigDecimal(2)).uom(tablespoon).recipe(tacos).build());
     	tacos.addIngredient(Ingredient.builder().name("Dried Oregano").amount(new BigDecimal(1)).uom(teaspoon).recipe(tacos).build());
         

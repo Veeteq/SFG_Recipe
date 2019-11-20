@@ -3,9 +3,12 @@ package com.wojnarowicz.sfg.recipe.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.wojnarowicz.sfg.recipe.command.RecipeCommand;
 import com.wojnarowicz.sfg.recipe.service.RecipeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -38,5 +41,18 @@ public class RecipeController {
         model.addAttribute("recipe", recipeService.findById(longId));
         
         return "recipes/show";
+    }
+    
+    @RequestMapping(path = "/recipe/new")
+    public String newRecipeForm(Model model) {
+        model.addAttribute("recipe", new RecipeCommand()); 
+        return "recipes/recipesform";
+    }
+    
+    @RequestMapping(path = "/recipe", method = RequestMethod.POST)
+    public String saveOrUpdateRecipe(@ModelAttribute RecipeCommand recipeCommand) {
+        RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
+        
+        return "redirect:/recipe/show/" + savedRecipeCommand.getId();
     }
 }

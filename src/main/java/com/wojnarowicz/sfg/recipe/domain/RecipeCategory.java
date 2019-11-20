@@ -24,4 +24,5 @@ public class RecipeCategory extends NamedEntity {
 
     @ManyToMany(mappedBy = "categories")
     private Set<Recipe> recipes;
+
 }

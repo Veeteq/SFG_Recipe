@@ -1,6 +1,8 @@
 package com.wojnarowicz.sfg.recipe.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -43,6 +45,8 @@ public class Recipe extends NamedEntity {
     private Integer servings;
     private String source;
     private String url;
+    private String title;
+    private String description;
     
     @Lob
     private String directions;
@@ -52,7 +56,7 @@ public class Recipe extends NamedEntity {
     
     @Builder.Default
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")    
-    private Set<Ingredient> ingredients = new HashSet<>();
+    private List<Ingredient> ingredients = new ArrayList<>();
     
     @Lob
     private Byte[] image;

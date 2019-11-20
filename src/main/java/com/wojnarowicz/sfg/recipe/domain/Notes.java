@@ -26,4 +26,5 @@ public class Notes extends BaseEntity {
     
     @Lob
     private String notes;
+
 }

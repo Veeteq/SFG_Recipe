@@ -17,4 +17,5 @@ public abstract class NamedEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     private String name;
+
 }

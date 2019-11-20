@@ -23,4 +23,5 @@ import lombok.experimental.SuperBuilder;
 public class User extends NamedEntity {
 
 	private static final long serialVersionUID = 1L;
+
 }

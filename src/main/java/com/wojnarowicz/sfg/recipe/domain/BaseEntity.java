@@ -15,19 +15,11 @@ import lombok.experimental.SuperBuilder;
 @Data
 @NoArgsConstructor
 @SuperBuilder
-public abstract class BaseEntity implements Serializable, Comparable<BaseEntity> {
+public abstract class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="default_seq")
     private Long id;
-    
-    @Override
-    public int compareTo(BaseEntity other) {
-        if (other instanceof BaseEntity) {
-            return this.getId().compareTo(other.getId());
-        }
-        return -1;
-    }
 }

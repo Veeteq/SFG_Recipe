@@ -1,5 +1,8 @@
 package com.wojnarowicz.sfg.recipe.service.impl;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,4 +29,10 @@ public class RecipeCategoryServiceImpl implements RecipeCategoryService {
         return recipeCategoryRepository.findByName(name).get();
     }
 
+    @Override
+    public Set<RecipeCategory> findAll() {
+        Set<RecipeCategory> categories = new HashSet<>();
+        recipeCategoryRepository.findAll().forEach(categories::add);
+        return categories;
+    }
 }

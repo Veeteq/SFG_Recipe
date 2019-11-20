@@ -1,11 +1,14 @@
-package com.wojnarowicz.sfg.recipe.service;
+package com.wojnarowicz.sfg.recipe.controller;
 
+import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -24,6 +27,7 @@ import org.springframework.ui.Model;
 
 import com.wojnarowicz.sfg.recipe.controller.RecipeController;
 import com.wojnarowicz.sfg.recipe.domain.Recipe;
+import com.wojnarowicz.sfg.recipe.service.RecipeService;
 
 public class RecipeControllerTest {
 
@@ -59,7 +63,7 @@ public class RecipeControllerTest {
         
         //then
         String viewName = recipeController.getRecipes(model);
-        Assertions.assertEquals("recipes", viewName);
+        Assertions.assertEquals("recipes/recipes", viewName);
         
         verify(recipeService, times(1)).findAll();
         verify(model, times(1)).addAttribute(eq("recipes"), eq(recipesSet));
@@ -71,10 +75,29 @@ public class RecipeControllerTest {
     }
     
     @Test
+    void testGetRecipeById() throws Exception {
+        //given
+        Recipe recipe = Recipe.builder()
+                .id(1L)
+                .name("Test Recipe")
+                .build();
+        
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+        
+        when(recipeService.findById(anyLong())).thenReturn(recipe);
+        
+        mockMvc.perform(get("/recipe/show/1"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("recipes/show"))
+        .andExpect(model().attributeExists("recipe")) 
+        .andExpect(model().attribute("recipe", notNullValue()));
+    }
+    
+    @Test
     public void testMockMVC() throws Exception {
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
         mockMvc.perform(get("/recipes/"))
         .andExpect(status().isOk())
-        .andExpect(view().name("recipes"));
+        .andExpect(view().name("recipes/recipes"));
     }
 }

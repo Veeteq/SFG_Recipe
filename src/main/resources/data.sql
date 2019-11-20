@@ -2,6 +2,9 @@ INSERT into recipe_categories(category_id, name) values(recipe_category_seq.next
 INSERT into recipe_categories(category_id, name) values(recipe_category_seq.nextval, 'Italian');
 INSERT into recipe_categories(category_id, name) values(recipe_category_seq.nextval, 'Mexican');
 INSERT into recipe_categories(category_id, name) values(recipe_category_seq.nextval, 'Thai');
+INSERT into recipe_categories(category_id, name) values(recipe_category_seq.nextval, 'Vegan');
+INSERT into recipe_categories(category_id, name) values(recipe_category_seq.nextval, 'Avocado');
+INSERT into recipe_categories(category_id, name) values(recipe_category_seq.nextval, 'Guacamole');
 INSERT into units_of_measure(uom_id, name) values(uom_seq.nextval, 'Teaspoon');
 INSERT into units_of_measure(uom_id, name) values(uom_seq.nextval, 'Tablespoon');
 INSERT into units_of_measure(uom_id, name) values(uom_seq.nextval, 'Cup');

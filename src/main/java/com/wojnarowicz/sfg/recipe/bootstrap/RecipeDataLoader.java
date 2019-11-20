@@ -2,7 +2,9 @@ package com.wojnarowicz.sfg.recipe.bootstrap;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.wojnarowicz.sfg.recipe.domain.Difficulty;
 import com.wojnarowicz.sfg.recipe.domain.Ingredient;
+import com.wojnarowicz.sfg.recipe.domain.Notes;
 import com.wojnarowicz.sfg.recipe.domain.Recipe;
 import com.wojnarowicz.sfg.recipe.domain.RecipeCategory;
 import com.wojnarowicz.sfg.recipe.domain.UnitOfMeasure;
@@ -32,8 +35,7 @@ public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEve
     private final UnitOfMeasure teaspoon;
     private final UnitOfMeasure piece;
     
-    private final RecipeCategory mexican;
-    private final RecipeCategory american;
+    private final Map<String, RecipeCategory> categories;
     
     @Autowired
     public RecipeDataLoader(RecipeService recipeService, RecipeCategoryService recipeCategoryService, UnitOfMeasureService unitOfMeasureService) {
@@ -45,8 +47,10 @@ public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEve
         teaspoon = this.unitOfMeasureService.findByName("Teaspoon");
         piece = this.unitOfMeasureService.findByName("Piece");
         
-        mexican = this.recipeCategoryService.findByName("Mexican");
-        american = this.recipeCategoryService.findByName("American");
+        this.categories = new HashMap<>();
+        this.recipeCategoryService.findAll().forEach(category -> {
+            this.categories.put(category.getName(), category);            
+        });
     }
 
     @Override
@@ -66,8 +70,11 @@ public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEve
     private Recipe createGuacamole() {
         
         Recipe guacamole = Recipe.builder()
-                .name("Perfect Guacamole")                
-                .cookTime(10)
+                .name("Perfect Guacamole")
+                .source("perfect_guacamole")
+                .title("How to Make Perfect Guacamole")
+                .description("The BEST guacamole! EASY to make with ripe avocados, salt, serrano chiles, cilantro and lime. Garnish with red radishes or jicama. Serve with tortilla chips.")
+                .cookTime(5)
                 .difficulty(Difficulty.EASY)
                 .prepTime(10)
                 .servings(4)
@@ -96,10 +103,29 @@ public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEve
                         "For a deviled egg version with guacamole, try our Guacamole Deviled Eggs!")
                 .build();
 
-        guacamole.addIngredient(Ingredient.builder().name("Ripe Avocados").amount(new BigDecimal(2)).uom(piece).recipe(guacamole).build());
-        guacamole.addIngredient(Ingredient.builder().name("Kosher Salt").amount(new BigDecimal(0.5)).uom(tablespoon).recipe(guacamole).build());
-                
-        guacamole.addCategory(mexican);
+        Notes notes = new Notes();
+        notes.setNotes("MAKING GUACAMOLE IS EASY\r\n" +
+                       "All you really need to make guacamole is ripe avocados and salt. After that, a little lime or lemon juice—a splash of acidity—will help to balance the richness of the avocado. Then if you want, add chopped cilantro, chiles, onion, and/or tomato.Once you have basic guacamole down, feel free to experiment with variations including strawberries, peaches, pineapple, mangoes, even watermelon. You can get creative with homemade guacamole!\n" +
+                       "GUACAMOLE TIP: USE RIPE AVOCADOS\n" +
+                       "The trick to making perfect guacamole is using ripe avocados that are just the right amount of ripeness. Not ripe enough and the avocado will be hard and tasteless. Too ripe and the taste will be off.\n" + 
+                       "Check for ripeness by gently pressing the outside of the avocado. If there is no give, the avocado is not ripe yet and will not taste good. If there is a little give, the avocado is ripe. If there is a lot of give, the avocado may be past ripe and not good. In this case, taste test first before using.\n");
+        notes.setRecipe(guacamole);
+        guacamole.setNotes(notes);
+        
+        Ingredient ing1 = Ingredient.builder().name("Ripe Avocados").amount(new BigDecimal(2)).uom(piece).recipe(guacamole).build();
+        Ingredient ing2 = Ingredient.builder().name("Kosher Salt").amount(new BigDecimal(0.5)).uom(tablespoon).recipe(guacamole).build();
+        System.out.println("equals: " + ing1.equals(ing2));
+        
+        System.out.println("size: " + guacamole.getIngredients().size());
+        guacamole.addIngredient(ing1);
+        System.out.println("size: " + guacamole.getIngredients().size());
+        guacamole.addIngredient(ing2);
+        System.out.println("size: " + guacamole.getIngredients().size());
+        
+        guacamole.addCategory(categories.get("Mexican"));
+        guacamole.addCategory(categories.get("Vegan"));
+        guacamole.addCategory(categories.get("Avocado"));
+        guacamole.addCategory(categories.get("Guacamole"));
         
         return guacamole;
     }
@@ -117,8 +143,8 @@ public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEve
     	tacos.addIngredient(Ingredient.builder().name("Ancho Chili Powder").amount(new BigDecimal(2)).uom(tablespoon).recipe(tacos).build());
     	tacos.addIngredient(Ingredient.builder().name("Dried Oregano").amount(new BigDecimal(1)).uom(teaspoon).recipe(tacos).build());
         
-    	tacos.addCategory(american);
-    	tacos.addCategory(mexican);
+    	tacos.addCategory(categories.get("American"));
+    	tacos.addCategory(categories.get("Mexiac"));
     	return tacos;
     }
 }

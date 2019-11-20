@@ -31,4 +31,5 @@ public class Item extends NamedEntity {
     @ManyToOne
     @JoinColumn(name="item_cate_id", nullable=false)
     private Category category;
+
 }

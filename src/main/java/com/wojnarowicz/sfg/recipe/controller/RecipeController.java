@@ -24,7 +24,7 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @RequestMapping(path = {"/recipes","/recipes/"})    
+    @RequestMapping(path = {"/recipes","/recipes/"}, method = RequestMethod.GET)    
     public String getRecipes(Model model) {
         log.debug("RecipeController: getRecipes");
         model.addAttribute("recipes", recipeService.findAll());
@@ -32,7 +32,7 @@ public class RecipeController {
         return "recipes/recipes";
     }
     
-    @RequestMapping(path = "/recipe/show/{id}")    
+    @RequestMapping(path = "/recipe/{id}/show", method = RequestMethod.GET)    
     public String getRecipeById(@PathVariable String id, Model model) {
         log.debug("RecipeController: getRecipeById: " + id);
         
@@ -43,16 +43,38 @@ public class RecipeController {
         return "recipes/show";
     }
     
-    @RequestMapping(path = "/recipe/new")
+    @RequestMapping(path = "/recipe/{id}/edit", method = RequestMethod.GET)
+    public String editRecipeById(@PathVariable String id, Model model) {
+        log.debug("RecipeController: editRecipeById: " + id);
+        
+        Long longId = Long.parseLong(id);
+        
+        model.addAttribute("recipe", recipeService.findCommandById(longId));
+        
+        return "recipes/recipeform";
+    }
+
+    @RequestMapping(path = "/recipe/new", method = RequestMethod.GET)
     public String newRecipeForm(Model model) {
         model.addAttribute("recipe", new RecipeCommand()); 
-        return "recipes/recipesform";
+        return "recipes/recipeform";
     }
     
+    @RequestMapping(path = "/recipe/{id}/delete", method = RequestMethod.GET)
+    public String deleteRecipeById(@PathVariable String id, Model model) {
+        log.debug("RecipeController: deleteRecipeById: " + id);
+        
+        Long longId = Long.parseLong(id);
+        
+        recipeService.deleteById(longId);
+        
+        return "redirect:/recipes";
+    }
+
     @RequestMapping(path = "/recipe", method = RequestMethod.POST)
     public String saveOrUpdateRecipe(@ModelAttribute RecipeCommand recipeCommand) {
         RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
         
-        return "redirect:/recipe/show/" + savedRecipeCommand.getId();
+        return "redirect:/recipe/" + savedRecipeCommand.getId() + "/show";
     }
 }

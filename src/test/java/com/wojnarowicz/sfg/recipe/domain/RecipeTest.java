@@ -15,9 +15,11 @@ class RecipeTest {
     void recipeBuilder() {
         Recipe recipe = Recipe.builder()
                 .name("Recipe")
+                .title("Recipe title")
                 .build();
         
         assertEquals("Recipe", recipe.getName());
+        assertEquals("Recipe title", recipe.getTitle());
         assertNotNull(recipe.getCategories());
         assertNotNull(recipe.getIngredients());
     }

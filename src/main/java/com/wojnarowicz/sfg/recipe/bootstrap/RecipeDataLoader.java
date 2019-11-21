@@ -55,7 +55,7 @@ public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEve
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        log.info("RecipeDataLoader: loading data...");
+        log.debug("RecipeDataLoader: loading data...");
         List<Recipe> recipes = new ArrayList<>();
         
         Recipe guacamole = createGuacamole();
@@ -114,13 +114,9 @@ public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEve
         
         Ingredient ing1 = Ingredient.builder().name("Ripe Avocados").amount(new BigDecimal(2)).uom(piece).recipe(guacamole).build();
         Ingredient ing2 = Ingredient.builder().name("Kosher Salt").amount(new BigDecimal(0.5)).uom(tablespoon).recipe(guacamole).build();
-        System.out.println("equals: " + ing1.equals(ing2));
         
-        System.out.println("size: " + guacamole.getIngredients().size());
         guacamole.addIngredient(ing1);
-        System.out.println("size: " + guacamole.getIngredients().size());
         guacamole.addIngredient(ing2);
-        System.out.println("size: " + guacamole.getIngredients().size());
         
         guacamole.addCategory(categories.get("Mexican"));
         guacamole.addCategory(categories.get("Vegan"));

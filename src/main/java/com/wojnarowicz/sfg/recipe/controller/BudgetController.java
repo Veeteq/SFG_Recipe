@@ -1,13 +1,16 @@
 package com.wojnarowicz.sfg.recipe.controller;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.wojnarowicz.sfg.recipe.domain.Expense;
 import com.wojnarowicz.sfg.recipe.service.CategoryService;
 import com.wojnarowicz.sfg.recipe.service.ItemService;
 import com.wojnarowicz.sfg.recipe.service.UserService;
@@ -65,10 +68,26 @@ public class BudgetController {
     @RequestMapping(path = "/expense/new", method = RequestMethod.GET)
     public String getExpenseForm(Model model) {
         
+    	model.addAttribute("expense", new Expense());
         model.addAttribute("currentDate", LocalDate.now());
         model.addAttribute("users", userService.findAll());
         model.addAttribute("items", itemService.findAll());
         
         return "budget/expenseform";
     }
+    
+    @RequestMapping(path = "/expense", method = RequestMethod.POST)
+    public String addOrUpdateExpense(@ModelAttribute Expense expense, Model model) {
+        
+    	expense.setPrice(expense.getPrice().add(BigDecimal.ONE));
+    	
+    	System.out.println(expense.getItem().getCategory().getName());
+    	model.addAttribute("expense", expense);
+    	model.addAttribute("users", userService.findAll());
+        model.addAttribute("items", itemService.findAll());
+        
+        
+        return "budget/expenseform";
+    }
+    
 }

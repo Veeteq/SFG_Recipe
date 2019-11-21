@@ -21,17 +21,17 @@
       </div>
     </nav>
 
-    <form method="POST" action="">
+    <form th:object="${expense}" th:action="@{/expense/}" method="POST">
       <div class="col-md-3">
         <div class="row">
 
       <div class="form-group col-md-6">
         <label for="example-date-input">Date</label>
-        <input class="form-control" type="date" th:field="*{currentDate}" id="date-input">        
+        <input class="form-control" type="date" th:field="*{operDate}" id="date-input">        
       </div>      
       <div class="form-group col-md-6">
         <label for="user-input">User</label>
-        <select class="form-control" name="user" id="user-input" th:field="*{users}">
+        <select class="form-control" name="user" id="user-input" th:field="*{user}">
           <option value=""> -- </option>
           <option th:each="user : ${users}" th:value="${user.id}" th:utext="${user.name}"/>
         </select>                                
@@ -41,9 +41,9 @@
         <div class="row">
           <div class="form-group col-md-12">
             <label for="item-input">Item</label>               
-            <select class="form-control" name="item" id="item-input" th:field="*{items}">
+            <select class="form-control" name="item" id="item-input" th:field="*{item}">
               <option value=""> -- </option>
-              <option th:each="item : ${items}" th:value="${item.id}" th:utext="${item.name}"/>
+              <option th:each="item : ${items}" th:value="${item.id}" th:text="${item.name}"/>
             </select>                
           </div>              
         </div>
@@ -51,11 +51,11 @@
         <div class="row">
           <div class="form-group col-md-4">
             <label for="count">Count</label>
-            <input class="form-control" value="1.000" type="text" id="count">        
+            <input class="form-control" value="1.000" type="text" id="count" th:field="*{count}">        
           </div>              
           <div class="form-group col-md-4">
             <label for="price">Price</label>
-            <input class="form-control" value="0.00" type="text" id="price">        
+            <input class="form-control" value="0.00" type="text" id="price" th:field="*{price}">        
           </div>              
           <div class="form-group col-md-4">
             <label for="total">Total</label>
@@ -66,18 +66,18 @@
         <div class="row">
           <div class="form-group col-md-12">
             <label for="comment-input">Comment</label>
-            <input class="form-control" type="text" id="comment-input">        
+            <input class="form-control" type="text" id="comment-input" th:field="*{comment}">        
           </div>              
         </div>        
-
+        <button type="submit" class="btn btn-primary">Submit</button>
 
       </div>
     </form>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous" th:src="@{/webjars/popper.js/1.15.0/umd/popper.min.js}"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous" th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+    <script src="http://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous" th:src="@{/webjars/popper.js/1.15.0/umd/popper.min.js}"></script>
+    <script src="http://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous" th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 
     <script>
       $(document).ready(function() {

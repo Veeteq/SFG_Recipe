@@ -1,5 +1,8 @@
 package com.wojnarowicz.sfg.recipe.service.impl;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +33,15 @@ public class CategoryServiceImpl implements CategoryService {
     public Category save(Category category) {
         log.debug("CategoryService: save");
         return categoryRepository.save(category);
+    }
+
+    @Override
+    public Set<Category> findAll() {
+        log.debug("CategoryService: findAll");
+        Set<Category> categories = new TreeSet<>();
+
+        categoryRepository.findAllByOrderById().iterator().forEachRemaining(categories::add);
+
+        return categories;
     }
 }

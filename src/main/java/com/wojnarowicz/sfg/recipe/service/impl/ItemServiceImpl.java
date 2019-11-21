@@ -1,5 +1,8 @@
 package com.wojnarowicz.sfg.recipe.service.impl;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +33,15 @@ public class ItemServiceImpl implements ItemService {
     public Item save(Item item) {
         log.debug("ItemService: save");
         return itemRepository.save(item);
+    }
+
+    @Override
+    public Set<Item> findAll() {
+        log.debug("ItemService: findAll");
+        Set<Item> items = new TreeSet<>();
+
+        itemRepository.findAllByOrderById().iterator().forEachRemaining(items::add);
+
+        return items;
     }
 }

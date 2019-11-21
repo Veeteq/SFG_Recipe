@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">   
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS --> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+        
+    <title>My Recipes</title>
+</head>
+
+  <body>
+      
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+      <a href="budget" class="navbar-brand">Budget</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"><a href="recipes" class="nav-link">Recipes</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <form method="POST" action="">
+      <div class="col-md-3">
+        <div class="row">
+
+      <div class="form-group col-md-6">
+        <label for="example-date-input">Date</label>
+        <input class="form-control" type="date" th:field="*{currentDate}" id="date-input">        
+      </div>      
+      <div class="form-group col-md-6">
+        <label for="user-input">User</label>
+        <select class="form-control" name="user" id="user-input" th:field="*{users}">
+          <option value=""> -- </option>
+          <option th:each="user : ${users}" th:value="${user.id}" th:utext="${user.name}"/>
+        </select>                                
+      </div> 
+
+        </div>
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label for="item-input">Item</label>               
+            <select class="form-control" name="item" id="item-input" th:field="*{items}">
+              <option value=""> -- </option>
+              <option th:each="item : ${items}" th:value="${item.id}" th:utext="${item.name}"/>
+            </select>                
+          </div>              
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-4">
+            <label for="count">Count</label>
+            <input class="form-control" value="1.000" type="text" id="count">        
+          </div>              
+          <div class="form-group col-md-4">
+            <label for="price">Price</label>
+            <input class="form-control" value="0.00" type="text" id="price">        
+          </div>              
+          <div class="form-group col-md-4">
+            <label for="total">Total</label>
+            <input class="form-control" type="text" id="total" readonly>        
+          </div>                  
+        </div>
+  
+        <div class="row">
+          <div class="form-group col-md-12">
+            <label for="comment-input">Comment</label>
+            <input class="form-control" type="text" id="comment-input">        
+          </div>              
+        </div>        
+
+
+      </div>
+    </form>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous" th:src="@{/webjars/popper.js/1.15.0/umd/popper.min.js}"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous" th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+
+    <script>
+      $(document).ready(function() {
+      //this calculates values automatically 
+    
+        $("#count, #price").on("keydown keyup", function() {
+          sum();
+        });
+      });
+
+      function sum() {
+        var count = document.getElementById('count').value;
+        var price = document.getElementById('price').value;
+			  var total = parseInt(count) * parseInt(price);
+			  if (!isNaN(total)) {
+          document.getElementById('total').value = total;
+        }
+      }      
+    </script>
+  </body>
+</html>

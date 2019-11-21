@@ -20,8 +20,15 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @NoArgsConstructor
 @SuperBuilder
-public class User extends NamedEntity {
+public class User extends NamedEntity implements Comparable<User> {
 
 	private static final long serialVersionUID = 1L;
 
+    @Override
+    public int compareTo(User other) {
+        if(other != null) {
+            return this.getId().compareTo(other.getId());
+        }
+        return -1;
+    }
 }

@@ -27,7 +27,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class Category extends NamedEntity {
+public class Category extends NamedEntity implements Comparable<Category> {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,4 +37,12 @@ public class Category extends NamedEntity {
 
     @OneToMany(mappedBy = "category")
     private Set<Item> items;
+
+    @Override
+    public int compareTo(Category other) {
+        if(other != null) {
+            return this.getId().compareTo(other.getId());
+        }
+        return -1;
+    }
 }

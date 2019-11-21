@@ -160,7 +160,7 @@ public class RecipeControllerTest {
     public void testDeleteById() throws Exception {
         mockMvc.perform(get("/recipe/2/delete"))
         .andExpect(status().is3xxRedirection())
-        .andExpect(view().name("redirect:recipes/recipes"));
+        .andExpect(view().name("redirect:/recipes"));
         
         verify(recipeService, times(1)).deleteById(anyLong());
     }

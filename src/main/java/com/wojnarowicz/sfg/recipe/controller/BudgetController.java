@@ -68,8 +68,20 @@ public class BudgetController {
     @RequestMapping(path = "/expense/new", method = RequestMethod.GET)
     public String getExpenseForm(Model model) {
         
-    	model.addAttribute("expense", new Expense());
-        model.addAttribute("currentDate", LocalDate.now());
+        LocalDate currentDate = LocalDate.now();            
+    	Expense expense = new Expense();    	
+        expense.setOperDate(currentDate);
+        expense.setCount(BigDecimal.ZERO);
+        expense.setPrice(BigDecimal.ONE);
+        
+        model.addAttribute("dateFormat", dateFormat());
+        System.out.println("dateFormat: " + dateFormat());
+        
+        model.addAttribute("expense", expense);
+        
+        model.addAttribute("currentDate", currentDate);
+        System.out.println("currentDate: " + currentDate.toString());
+        
         model.addAttribute("users", userService.findAll());
         model.addAttribute("items", itemService.findAll());
         
@@ -77,11 +89,16 @@ public class BudgetController {
     }
     
     @RequestMapping(path = "/expense", method = RequestMethod.POST)
-    public String addOrUpdateExpense(@ModelAttribute Expense expense, Model model) {
+    public String addOrUpdateExpense(@ModelAttribute(name = "expense") Expense expense, Model model) {
         
+        System.out.println(expense.getOperDate().toString());
+        System.out.println(expense.getCount());
     	expense.setPrice(expense.getPrice().add(BigDecimal.ONE));
     	
     	System.out.println(expense.getItem().getCategory().getName());
+    	
+    	model.addAttribute("dateFormat", dateFormat());
+    	model.addAttribute("currentDate", expense.getOperDate());
     	model.addAttribute("expense", expense);
     	model.addAttribute("users", userService.findAll());
         model.addAttribute("items", itemService.findAll());
@@ -89,5 +106,18 @@ public class BudgetController {
         
         return "budget/expenseform";
     }
+
+    @ModelAttribute
+    public String dateFormat() {
+        return "yyyy-MM-dd";
+    }
     
+    /*
+    @InitBinder
+    private void dateBinder(WebDataBinder binder) {
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat());
+        CustomDateEditor dateEditor = new CustomDateEditor(sdf, true);
+        binder.registerCustomEditor(LocalDate.class, dateEditor);
+    }
+*/    
 }

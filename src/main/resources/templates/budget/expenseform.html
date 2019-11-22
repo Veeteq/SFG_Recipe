@@ -13,27 +13,28 @@
   <body>
       
     <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <a href="budget" class="navbar-brand">Budget</a>
+      <a href="/budget" class="navbar-brand">Budget</a>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item"><a href="recipes" class="nav-link">Recipes</a></li>
+          <li class="nav-item"><a href="/recipes" class="nav-link">Recipes</a></li>
         </ul>
       </div>
     </nav>
 
     <form th:object="${expense}" th:action="@{/expense/}" method="POST">
+      <input type="hidden" th:field="*{id}">
       <div class="col-md-3">
         <div class="row">
 
       <div class="form-group col-md-6">
-        <label for="example-date-input">Date</label>
-        <input class="form-control" type="date" th:field="*{operDate}" id="date-input">        
+        <label for="example-date-input" th:text="'Current Date: ' + ${currentDate}">Date</label>
+        <input class="form-control" type="date" th:type="date" th:value="${#temporals.format(expense.operDate, dateFormat)}" id="date-input" th:name="operDate"> <!-- th:field="*{operDate}"  -->        
       </div>      
       <div class="form-group col-md-6">
         <label for="user-input">User</label>
         <select class="form-control" name="user" id="user-input" th:field="*{user}">
           <option value=""> -- </option>
-          <option th:each="user : ${users}" th:value="${user.id}" th:utext="${user.name}"/>
+          <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.name}"/>
         </select>                                
       </div> 
 
@@ -50,12 +51,12 @@
 
         <div class="row">
           <div class="form-group col-md-4">
-            <label for="count">Count</label>
-            <input class="form-control" value="1.000" type="text" id="count" th:field="*{count}">        
+            <label for="count" th:text="${'count: ' + expense.count}">Count</label>
+            <input class="form-control" type="text" id="count" th:field="*{count}"><!-- th:value="${#numbers.formatDecimal(expense.count, 1, 3, 'DEFAULT')}" -->        
           </div>              
           <div class="form-group col-md-4">
             <label for="price">Price</label>
-            <input class="form-control" value="0.00" type="text" id="price" th:field="*{price}">        
+            <input class="form-control" type="text" id="price" th:field="*{price}">        
           </div>              
           <div class="form-group col-md-4">
             <label for="total">Total</label>

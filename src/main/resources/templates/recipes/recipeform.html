@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">   
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS --> 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
-        
-    <title>Add/Edit Recipe</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
+    th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+
+  <title>Add/Edit Recipe</title>
 </head>
 
   <body>
@@ -16,23 +19,25 @@
         <div class="container">
           <div class="col-md-8 offset-md-2">
             <form th:object="${recipe}" th:action="@{/recipe/}" method="POST">
-              <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{id}">
 
-              <div class="card">
-                <div class="card-header bg-primary text-white">
-                  <h2 class="card-title">Edit Recipe Information</h2>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-6 form-group">
-                      <label>Recipe Title:</label>
-                      <input type="text" class="form-control" th:field="*{title}"/>
-                    </div>
-                    <div class="col-md-6 form-group">
-                      <label>Recipe Name:</label>
-                      <input type="text" class="form-control" th:field="*{name}"/>
-                    </div>
+            <div class="card">
+              <div class="card-header bg-primary text-white">
+                <h2 class="card-title">Edit Recipe Information</h2>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 form-group">
+                    <label>Recipe Title:</label>
+                    <input type="text" class="form-control" th:field="*{title}"/>
                   </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 form-group">
+                    <label>Recipe Name:</label>
+                    <input type="text" class="form-control" th:field="*{name}"/>
+                  </div>
+                </div>
                   <div class="row">
                     <div class="col-md-12 form-group">
                       <label>Recipe Description:</label>

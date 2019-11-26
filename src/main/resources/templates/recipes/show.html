@@ -13,31 +13,67 @@
   <title>My Recipes</title>
 </head>
 
-<body>
-  <div class="container-fluid" style="margin-top: 20px">
-    <div class="row">
-      <div class="container">
-      <div class="col-md-8 offset-md-2">
-        <div class="card">
-          <div class="card-header bg-primary text-white">
-            <h1 class="card-title" th:text="${recipe.title}">Recipe Name</h1>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-12">
-                <p th:text="${recipe.description}">Description</p>
+  <body>
+    <div class="container-fluid" style="margin-top: 10px">
+      <div class="row">
+        <div class="container">
+          <div class="col-md-8 offset-md-2">
+            <div class="card">
+              <div class="card-header bg-primary text-white">
+                <div class="row">
+                  <div class="col-md-10">
+                    <h2 class="card-title" th:text="${recipe.title}">Recipe Title</h2>
+                  </div>
+                  <div class="col-md-2">
+                    <a class="btn btn-light" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/image'}">Add image</a>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-md-3">
-                <h5>Categories:</h5>
-              </div>
-              <div class="col-md-3">
-                <ul th:each="category : ${recipe.categories}">
-                  <li th:text="${category.name}">Category</li>
-                </ul>
-              </div>
-            </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <h5>Title:</h5>
+                      </div>
+                      <div class="col-md-6">
+                        <p th:text="${recipe.title}">Title</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <h5>Name:</h5>
+                      </div>
+                      <div class="col-md-6">
+                        <p th:text="${recipe.name}">Name</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 text-center">
+                    <img src="../../static/images/guacamole-1600-600.jpg"
+                         th:src="@{/images/guacamole-1600-600.jpg}"
+                         width="200" height="200" class="img-fluid" alt="image">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <h5>Description:</h5>
+                  </div>
+                  <div class="col-md-9">
+                    <p th:text="${recipe.description}">Description</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <h5>Categories:</h5>
+                  </div>
+                  <div class="col-md-3">
+                    <ul th:each="category : ${recipe.categories}">
+                      <li th:text="${category.name}">Category</li>
+                    </ul>
+                  </div>
+                </div>
+
             <div class="row">
               <div class="col-md-3">
                 <h5>Prep Time:</h5>

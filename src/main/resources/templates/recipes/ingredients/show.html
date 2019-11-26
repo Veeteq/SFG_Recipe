@@ -1,45 +1,47 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS --> 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
+    th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
 
-    <title>View Ingredient</title>
+  <title>View Ingredient</title>
 </head>
+
 <body>
-<!--/*@thymesVar id="ingredient" type="guru.springframework.commands.IngredientCommand"*/-->
-<div class="container-fluid" style="margin-top: 20px">
+  <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="panel panel-primary">
-
-                <div class="panel-heading">
-                    <h1 class="panel-title">Ingredient</h1>
-                </div>
-                <div class="panel-body">
-
-                    <div class="table-responsive">
-                        <table class="table table-hover ">
-                            <thead class="thead-inverse">
-                            <tr>
-                                <th>ID</th>
-                                <th>Description</th>
-                            </tr>
-                            </thead>
-                            <tr>
-                                <td th:text="${ingredient.id}">334</td>
-                                <td th:text="${ingredient.amount} + ' ' + ${ingredient.uom.name} + ' ' + ${ingredient.name}">Tasty Goodnees 3</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+      <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h1 class="panel-title" th:text="'Ingredients'">Ingredients</h1>
+          </div>
+          <div class="panel-body">
+            <div class="table-responsive">
+              <table class="table table-hover ">
+                <thead class="thead-light">
+                  <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tr>
+                  <td th:text="${ingredient.id}">334</td>
+                  <td th:text="${ingredient.amount} + ' ' + ${ingredient.uom.name} + ' ' + ${ingredient.name}">Tasty Goodnees 3</td>
+                </tr>
+              </table>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

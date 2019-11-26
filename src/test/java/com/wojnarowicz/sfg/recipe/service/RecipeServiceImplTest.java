@@ -83,8 +83,7 @@ public class RecipeServiceImplTest {
     
     @Test
     public void testDeleteById() {
-        //given
-        
+        //given        
         Long longId = 2L;
         
         //when

@@ -70,31 +70,35 @@
                     </div>
                     <div class="col-md-7 form-group">
                       <label>Difficulty:</label>
-                      <input type="text" class="form-control" th:field="*{difficulty}"/>
+                      <select class="form-control" th:field="*{difficulty}">
+                        <option th:each="difficulty : ${T(com.wojnarowicz.sfg.recipe.domain.Difficulty).values()}"
+                                th:value="${difficulty.name()}"
+                                th:text="${difficulty.name()}">Difficulty</option>
+                      </select>
                     </div>
                   </div>                                                   
                 </div>
-              </div>    
 
-              <div class="card">
                 <div class="card-header bg-primary text-white">
-                  <h2 class="card-title">Ingredients</h2>
+                  <div class="row">
+                    <div class="col-md-10">
+                      <h1 class="card-title" th:text="'Ingredients'">Ingredients</h1>
+                    </div>
+                    <div class="col-md-2">
+                      <a class="btn btn-light" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}">View</a>
+                    </div>
+                  </div>
                 </div>
                 <div class="card-body">
-
                 </div>
-              </div>    
 
-              <div class="card">
                 <div class="card-header bg-primary text-white">
                   <h2 class="card-title">Directions</h2>
                 </div>
                 <div class="card-body">
                   <textarea class="form-control" rows="3" th:field="*{directions}"></textarea>
                 </div>
-              </div>    
 
-              <div class="card">
                 <div class="card-header bg-primary text-white">
                   <h2 class="card-title">Notes</h2>
                 </div>
@@ -104,9 +108,8 @@
                 <div class="card-footer">
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
-              </div>                  
               
-
+              </div>
             </form>
           </div>
         </div>        

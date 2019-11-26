@@ -25,15 +25,15 @@
                 <tr>
                   <th>ID</th>
                   <th>Name</th>
-                  <th>Description</th>
+                  <th>Type</th>
                   <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
                   <tr th:each="category:${categories}">
                     <td th:text="${category.id}">Id</td>
-                    <td th:text="${category.name}">recipe</td>
-                    <td th:text="${category.categoryType}">difficulty</td>
+                    <td th:text="${category.name}">Name</td>
+                    <td th:text="${category.categoryType}">Type</td>
                     <td><a href="#" th:href="@{'/category/' + ${category.id} + '/show'}">View</a>
                         <a href="#" th:href="@{'/category/' + ${category.id} + '/edit'}">Edit</a>
                         <a href="#" th:href="@{'/category/' + ${category.id} + '/delete'}">Delete</a>

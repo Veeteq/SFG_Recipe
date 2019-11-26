@@ -3,10 +3,10 @@ package com.wojnarowicz.sfg.recipe.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.wojnarowicz.sfg.recipe.command.RecipeCommand;
 import com.wojnarowicz.sfg.recipe.service.RecipeService;
@@ -24,7 +24,7 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @RequestMapping(path = {"/recipes","/recipes/"}, method = RequestMethod.GET)    
+    @GetMapping(path = {"/recipes","/recipes/"})    
     public String getRecipes(Model model) {
         log.debug("RecipeController: getRecipes");
         model.addAttribute("recipes", recipeService.findAll());
@@ -32,7 +32,7 @@ public class RecipeController {
         return "recipes/recipes";
     }
     
-    @RequestMapping(path = "/recipe/{id}/show", method = RequestMethod.GET)    
+    @GetMapping(path = "/recipe/{id}/show")    
     public String getRecipeById(@PathVariable String id, Model model) {
         log.debug("RecipeController: getRecipeById: " + id);
         
@@ -43,7 +43,7 @@ public class RecipeController {
         return "recipes/show";
     }
     
-    @RequestMapping(path = "/recipe/{id}/edit", method = RequestMethod.GET)
+    @GetMapping(path = "/recipe/{id}/edit")
     public String editRecipeById(@PathVariable String id, Model model) {
         log.debug("RecipeController: editRecipeById: " + id);
         
@@ -54,13 +54,13 @@ public class RecipeController {
         return "recipes/recipeform";
     }
 
-    @RequestMapping(path = "/recipe/new", method = RequestMethod.GET)
+    @GetMapping(path = "/recipe/new")
     public String newRecipeForm(Model model) {
         model.addAttribute("recipe", new RecipeCommand()); 
         return "recipes/recipeform";
     }
     
-    @RequestMapping(path = "/recipe/{id}/delete", method = RequestMethod.GET)
+    @GetMapping(path = "/recipe/{id}/delete")
     public String deleteRecipeById(@PathVariable String id, Model model) {
         log.debug("RecipeController: deleteRecipeById: " + id);
         
@@ -71,7 +71,7 @@ public class RecipeController {
         return "redirect:/recipes";
     }
 
-    @RequestMapping(path = "/recipe", method = RequestMethod.POST)
+    @PostMapping(path = "/recipe")
     public String saveOrUpdateRecipe(@ModelAttribute RecipeCommand recipeCommand) {
         RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
         

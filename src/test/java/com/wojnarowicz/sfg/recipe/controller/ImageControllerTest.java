@@ -85,6 +85,10 @@ class ImageControllerTest {
         
         String s = "Fake image text";        
         Byte[] byteObject = new Byte[s.getBytes().length];
+        int i = 0;
+        for (byte b : s.getBytes()){
+            byteObject[i++] = b;
+        }                
         recipeCommand.setImage(byteObject);
         
         when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);

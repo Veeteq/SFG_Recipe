@@ -51,7 +51,7 @@
                   </div>
                   <div class="col-md-6 text-center">
                     <img src="../../static/images/guacamole-1600-600.jpg"
-                         th:src="@{/images/guacamole-1600-600.jpg}"
+                         th:src="@{'/recipe/' + ${recipe.id} + '/recipeimage'}"
                          width="200" height="200" class="img-fluid" alt="image">
                   </div>
                 </div>

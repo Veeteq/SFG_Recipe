@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.wojnarowicz.sfg.recipe.domain.Expense;
 import com.wojnarowicz.sfg.recipe.service.CategoryService;
+import com.wojnarowicz.sfg.recipe.service.ExpenseService;
 import com.wojnarowicz.sfg.recipe.service.ItemService;
 import com.wojnarowicz.sfg.recipe.service.UserService;
 
@@ -24,12 +25,14 @@ public class BudgetController {
     private final CategoryService categoryService;
     private final ItemService itemService;
     private final UserService userService;
+    private final ExpenseService expenseService;
     
     @Autowired
-    public BudgetController(CategoryService categoryService, ItemService itemService, UserService userService) {
+    public BudgetController(CategoryService categoryService, ItemService itemService, UserService userService, ExpenseService expenseService) {
         this.categoryService = categoryService;
         this.itemService = itemService;
         this.userService = userService;
+        this.expenseService = expenseService;
     }
 
     @RequestMapping(path = {"/budget","/budget/"})    
@@ -93,11 +96,14 @@ public class BudgetController {
     public String onDateChangeForm(@ModelAttribute(name = "expense") Expense expense, Model model) {
         log.debug("BudgetController: dateChangeForm");
         
+        LocalDate operDate = expense.getOperDate();
+        
         model.addAttribute("dateFormat", dateFormat());
-        model.addAttribute("currentDate", expense.getOperDate());
+        model.addAttribute("currentDate", operDate);
         model.addAttribute("expense", expense);
         model.addAttribute("users", userService.findAll());
         model.addAttribute("items", itemService.findAll());
+        model.addAttribute("expenses", expenseService.findByOperDate(operDate));
         
         return "budget/expenseform";
     }
@@ -106,20 +112,20 @@ public class BudgetController {
     public String addOrUpdateExpense(@ModelAttribute(name = "expense") Expense expense, Model model) {
         log.debug("BudgetController: addOrUpdateExpense");
         
-        System.out.println(expense.getOperDate().toString());
+        LocalDate operDate = expense.getOperDate();
+        
+        System.out.println(operDate.toString());
         System.out.println(expense.getCount());
     	expense.setPrice(expense.getPrice().add(BigDecimal.ONE));
     	
     	System.out.println(expense.getItem().getCategory().getName());
     	
-        
-        
     	model.addAttribute("dateFormat", dateFormat());
-    	model.addAttribute("currentDate", expense.getOperDate());
+    	model.addAttribute("currentDate", operDate);
     	model.addAttribute("expense", expense);
     	model.addAttribute("users", userService.findAll());
-        model.addAttribute("items", itemService.findAll());
-        
+    	model.addAttribute("items", itemService.findAll());
+    	model.addAttribute("expenses", expenseService.findByOperDate(operDate));
         
         return "budget/expenseform";
     }

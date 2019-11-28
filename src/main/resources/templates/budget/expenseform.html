@@ -90,32 +90,30 @@
       </div>
 
       <div class="col-md-8">
-            <div class="table-responsive" th:if="${not #lists.isEmpty(expenses)}">
-              <table id="recipes" class="table table-hover">
-                <thead class="thead-light">                
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                  <tr th:each="expense:${expenses}">
-                    <td th:text="${expense.item.name}">Name</td>
-                    <td th:text="${expense.count}">Count</td>
-                    <td th:text="${expense.price}">Price</td>
-                    <td th:text="${expense.total}">Total</td>
-                    <td><a href="#" th:href="@{'/category/' + ${expense.id} + '/show'}">View</a>
-                        <a href="#" th:href="@{'/category/' + ${expense.id} + '/edit'}">Edit</a>
-                        <a href="#" th:href="@{'/category/' + ${expense.id} + '/delete'}">Delete</a>
-                    </td>
-                                    
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-      
+        <div class="table-responsive" th:if="${not #lists.isEmpty(expenses)}">
+          <table id="recipes" class="table table-hover">
+            <thead class="thead-light">                
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="expense:${expenses}">
+                <td th:text="${expense.item.name}">Name</td>
+                <td th:text="${expense.count}">Count</td>
+                <td th:text="${expense.price}">Price</td>
+                <td th:text="${expense.total}">Total</td>
+                <td><a href="#" th:href="@{'/category/' + ${expense.id} + '/show'}">View</a>
+                    <a href="#" th:href="@{'/category/' + ${expense.id} + '/edit'}">Edit</a>
+                    <a href="#" th:href="@{'/category/' + ${expense.id} + '/delete'}">Delete</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>      
       </div>
     </div>
   </div>    

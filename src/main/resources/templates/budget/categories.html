@@ -11,6 +11,26 @@
 </head>
 
 <body>
+  <nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a href="/" class="navbar-brand">Home</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a href="/users" class="nav-link">Users</a></li>
+        <li class="nav-item"><a href="/items" class="nav-link">Items</a></li>
+        <li class="nav-item active"><a href="/categories" class="nav-link">Categories</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/expense/new">Expense</a>
+            <a class="dropdown-item" href="/income/new">Income</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/finevent/new">Financial event</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+    
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-6 col-md-offset-3">

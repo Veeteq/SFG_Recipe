@@ -67,6 +67,7 @@ public class BudgetController {
 
     @RequestMapping(path = "/expense/new", method = RequestMethod.GET)
     public String getExpenseForm(Model model) {
+        log.debug("BudgetController: getExpenseForm");
         
         LocalDate currentDate = LocalDate.now();            
     	Expense expense = new Expense();    	
@@ -88,8 +89,22 @@ public class BudgetController {
         return "budget/expenseform";
     }
     
-    @RequestMapping(path = "/expense", method = RequestMethod.POST)
+    @RequestMapping(params = "!submitBtn", path = "/expense", method = RequestMethod.POST)
+    public String onDateChangeForm(@ModelAttribute(name = "expense") Expense expense, Model model) {
+        log.debug("BudgetController: dateChangeForm");
+        
+        model.addAttribute("dateFormat", dateFormat());
+        model.addAttribute("currentDate", expense.getOperDate());
+        model.addAttribute("expense", expense);
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("items", itemService.findAll());
+        
+        return "budget/expenseform";
+    }
+
+    @RequestMapping(params = "submitBtn", path = "/expense", method = RequestMethod.POST)
     public String addOrUpdateExpense(@ModelAttribute(name = "expense") Expense expense, Model model) {
+        log.debug("BudgetController: addOrUpdateExpense");
         
         System.out.println(expense.getOperDate().toString());
         System.out.println(expense.getCount());
@@ -97,6 +112,8 @@ public class BudgetController {
     	
     	System.out.println(expense.getItem().getCategory().getName());
     	
+        
+        
     	model.addAttribute("dateFormat", dateFormat());
     	model.addAttribute("currentDate", expense.getOperDate());
     	model.addAttribute("expense", expense);

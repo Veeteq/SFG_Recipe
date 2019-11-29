@@ -29,7 +29,7 @@ public class Item extends NamedEntity implements Comparable<Item> {
     private static final long serialVersionUID = 1L;
     
     @ManyToOne
-    @JoinColumn(name="item_cate_id", nullable=false)
+    @JoinColumn(name="cate_id", nullable=false)
     private Category category;
 
     @Override

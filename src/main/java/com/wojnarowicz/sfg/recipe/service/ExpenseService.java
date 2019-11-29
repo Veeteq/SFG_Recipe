@@ -11,4 +11,6 @@ public interface ExpenseService {
 
 	Set<Expense> findByOperDate(LocalDate operDate);
 
+    Expense save(Expense expense);
+
 }

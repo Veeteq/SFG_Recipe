@@ -45,4 +45,10 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     	return expenses;
 	}
+
+    @Override
+    public Expense save(Expense expense) {
+        log.debug("ExpenseService: save");
+        return expenseRepository.save(expense);
+    }
 }

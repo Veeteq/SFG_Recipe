@@ -72,22 +72,23 @@ public class BudgetController {
     public String getExpenseForm(Model model) {
         log.debug("BudgetController: getExpenseForm");
         
-        LocalDate currentDate = LocalDate.now();            
-    	Expense expense = new Expense();    	
-        expense.setOperDate(currentDate);
-        expense.setCount(BigDecimal.ZERO);
-        expense.setPrice(BigDecimal.ONE);
+        LocalDate operDate = LocalDate.now();            
+    	//Expense expense = new Expense();
+    	Expense expense = Expense.builder()
+        .operDate(operDate)
+        .count(BigDecimal.ZERO)
+        .price(BigDecimal.ONE)
+        .build();
         
-        model.addAttribute("dateFormat", dateFormat());
-        System.out.println("dateFormat: " + dateFormat());
+        log.debug("dateFormat: " + dateFormat());
+        log.debug("currentDate: " + operDate.toString());
         
+        model.addAttribute("dateFormat", dateFormat());        
         model.addAttribute("expense", expense);
-        
-        model.addAttribute("currentDate", currentDate);
-        System.out.println("currentDate: " + currentDate.toString());
-        
+        model.addAttribute("currentDate", operDate);
         model.addAttribute("users", userService.findAll());
         model.addAttribute("items", itemService.findAll());
+        model.addAttribute("expenses", expenseService.findByOperDate(operDate));
         
         return "budget/expenseform";
     }
@@ -127,7 +128,9 @@ public class BudgetController {
     	model.addAttribute("items", itemService.findAll());
     	model.addAttribute("expenses", expenseService.findByOperDate(operDate));
         
-        return "budget/expenseform";
+    	expenseService.save(expense);
+    	
+        return "redirect:/expense/new";
     }
 
     @ModelAttribute

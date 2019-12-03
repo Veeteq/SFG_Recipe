@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- include the jQuery UI style sheet -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
+  </head>
+  <body>
+
+    <form id="datePickerForm" action="datePicker" method="POST">
+      <div id="Datepicker1" name="datePicker"></div>
+      <input type="hidden" id="datePickerValue"/>
+    </form>
+    
+
+    <!-- include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- include jQuery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script type="text/javascript">
+      $(function () {        
+          $("#Datepicker1").datepicker({    
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            changeMonth: true,
+            changeYear: true,
+            numberOfMonths: 1,
+            showButtonPanel: true,
+            altField: "#datePickerValue",
+            onSelect: function (dateText, inst) {
+              console.log("Selected date: " + dateText);
+              //$('#datePickerForm').submit();
+            }
+          });
+          queryDate = '2009-11-01';
+          console.log("queryDate: " + queryDate);
+          var parsedDate = $.datepicker.parseDate('yy-mm-dd', queryDate);
+          $('#Datepicker1').datepicker('setDate', parsedDate);          
+        });
+          
+    </script>
+    
+  </body>
+</html>

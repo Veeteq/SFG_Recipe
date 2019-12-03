@@ -1,9 +1,12 @@
 package com.wojnarowicz.sfg.recipe.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RecipeController {
 
+    private final static String RECIPES_RECIPE_FORM = "recipes/recipeform"; 
     private final RecipeService recipeService;
     
     @Autowired
@@ -56,13 +60,13 @@ public class RecipeController {
         
         model.addAttribute("recipe", recipeService.findCommandById(longId));
         
-        return "recipes/recipeform";
+        return RECIPES_RECIPE_FORM;
     }
 
     @GetMapping(path = "/recipe/new")
     public String newRecipeForm(Model model) {
         model.addAttribute("recipe", new RecipeCommand()); 
-        return "recipes/recipeform";
+        return RECIPES_RECIPE_FORM;
     }
     
     @GetMapping(path = "/recipe/{id}/delete")
@@ -77,7 +81,14 @@ public class RecipeController {
     }
 
     @PostMapping(path = "/recipe")
-    public String saveOrUpdateRecipe(@ModelAttribute RecipeCommand recipeCommand) {
+    public String saveOrUpdateRecipe(@Valid @ModelAttribute("recipe") RecipeCommand recipeCommand, BindingResult result) {
+        if(result.hasErrors()) {
+            result.getAllErrors().forEach(err -> {
+                log.debug(err.toString());
+            });
+            return RECIPES_RECIPE_FORM;
+        }
+        
         RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
         
         return "redirect:/recipe/" + savedRecipeCommand.getId() + "/show";
@@ -91,18 +102,6 @@ public class RecipeController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("exception", exception);
         modelAndView.setViewName("/recipes/404error");
-        
-        return modelAndView;
-    }
-
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NumberFormatException.class)
-    public ModelAndView handleNumberFormatException(Exception exception) {
-        log.debug("RecipeController: handleNumberFormatException");
-        
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("exception", exception);
-        modelAndView.setViewName("/recipes/400error");
         
         return modelAndView;
     }

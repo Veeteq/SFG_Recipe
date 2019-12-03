@@ -27,6 +27,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
+import org.thymeleaf.standard.expression.AndExpression;
 
 import com.wojnarowicz.sfg.recipe.command.RecipeCommand;
 import com.wojnarowicz.sfg.recipe.domain.Recipe;
@@ -49,7 +50,10 @@ public class RecipeControllerTest {
         MockitoAnnotations.initMocks(this);
         
         recipeController = new RecipeController(recipeService);
-        mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(recipeController)
+                .setControllerAdvice(new ControllerExceptionHandler())
+                .build();
     }
 
     @Test
@@ -131,6 +135,7 @@ public class RecipeControllerTest {
         .andExpect(model().attributeExists("recipe"));
     }
     
+    @Test
     public void testPostNewRecipeForm() throws Exception {
         Long longId = 2L;
         String testName = "Test Name";
@@ -139,6 +144,8 @@ public class RecipeControllerTest {
         RecipeCommand command = new RecipeCommand();
         command.setId(longId);
         command.setName(testName);
+        command.setDirections(testName);
+        command.setTitle(testName);
         
         //when
         when(recipeService.saveRecipeCommand(any())).thenReturn(command);
@@ -147,13 +154,36 @@ public class RecipeControllerTest {
         mockMvc.perform(post("/recipe")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id",  "2")
-                .param("name",  "test name"))
+                .param("description", "test description")
+                .param("name",  "test name")
+                .param("directions", "test directions")
+                .param("title",  "test title"))
         
         .andExpect(status().is3xxRedirection())
-        .andExpect(view().name("redirect:/recipes/2/show"))
-        .andExpect(model().attributeExists("recipe"));
+        .andExpect(view().name("redirect:/recipe/2/show"));
     }
 
+    @Test
+    public void testPostNewRecipeFormInvalidData() throws Exception {
+        Long longId = 2L;
+        
+        //given
+        RecipeCommand command = new RecipeCommand();
+        command.setId(longId);
+        
+        //when
+        when(recipeService.saveRecipeCommand(any())).thenReturn(command);
+        
+        //then
+        mockMvc.perform(post("/recipe")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id",  "2"))
+        
+        .andExpect(status().isOk())
+        .andExpect(view().name("recipes/recipeform"))
+        .andExpect(model().attributeExists("recipe"));
+    }
+    
     @Test
     public void testGetUpdateRecipeForm() throws Exception {
         Long longId = 2L;

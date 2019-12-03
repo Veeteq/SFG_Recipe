@@ -13,6 +13,7 @@ import com.wojnarowicz.sfg.recipe.command.RecipeCommand;
 import com.wojnarowicz.sfg.recipe.converter.RecipeCommandToRecipe;
 import com.wojnarowicz.sfg.recipe.converter.RecipeToRecipeCommand;
 import com.wojnarowicz.sfg.recipe.domain.Recipe;
+import com.wojnarowicz.sfg.recipe.exception.NotFoundException;
 import com.wojnarowicz.sfg.recipe.repository.RecipeRepository;
 import com.wojnarowicz.sfg.recipe.service.RecipeService;
 
@@ -47,7 +48,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe findById(Long id) {
         Optional<Recipe> optional = recipeRepository.findById(id);
         if(!optional.isPresent()) {
-            throw new RuntimeException("Recipe not found!");            
+            throw new NotFoundException("Recipe with id " + id + " not found!");            
         }
         return optional.get();
     }

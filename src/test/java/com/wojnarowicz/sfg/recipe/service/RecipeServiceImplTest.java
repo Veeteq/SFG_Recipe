@@ -2,6 +2,7 @@ package com.wojnarowicz.sfg.recipe.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -20,6 +21,7 @@ import org.mockito.MockitoAnnotations;
 import com.wojnarowicz.sfg.recipe.converter.RecipeCommandToRecipe;
 import com.wojnarowicz.sfg.recipe.converter.RecipeToRecipeCommand;
 import com.wojnarowicz.sfg.recipe.domain.Recipe;
+import com.wojnarowicz.sfg.recipe.exception.NotFoundException;
 import com.wojnarowicz.sfg.recipe.repository.RecipeRepository;
 import com.wojnarowicz.sfg.recipe.service.impl.RecipeServiceImpl;
 
@@ -58,7 +60,7 @@ public class RecipeServiceImplTest {
     }
     
     @Test
-    public void findById() {
+    public void testFindById() {
         Long recipeId = 1L;
         String recipeName = "TestRecipe";
         
@@ -91,5 +93,14 @@ public class RecipeServiceImplTest {
         
         //then
         verify(recipeRepository, times(1)).deleteById(anyLong());
+    }
+    
+    @Test
+    public void testFindByIdNotFound() {
+        Optional<Recipe> optionalRecipe = Optional.empty();
+        
+        when(recipeRepository.findById(anyLong())).thenReturn(optionalRecipe);
+        
+        assertThrows(NotFoundException.class, () -> recipeService.findById(1L));
     }
 }

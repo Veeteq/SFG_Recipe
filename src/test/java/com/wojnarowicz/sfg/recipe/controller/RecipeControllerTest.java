@@ -27,10 +27,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.wojnarowicz.sfg.recipe.command.RecipeCommand;
 import com.wojnarowicz.sfg.recipe.controller.RecipeController;
 import com.wojnarowicz.sfg.recipe.domain.Recipe;
+import com.wojnarowicz.sfg.recipe.exception.NotFoundException;
 import com.wojnarowicz.sfg.recipe.service.RecipeService;
 
 public class RecipeControllerTest {
@@ -97,6 +100,16 @@ public class RecipeControllerTest {
         .andExpect(view().name("recipes/show"))
         .andExpect(model().attributeExists("recipe")) 
         .andExpect(model().attribute("recipe", notNullValue()));
+    }
+    
+    @Test
+    void testGetRecipeByIdNotFound() throws Exception {
+                
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+        
+        mockMvc.perform(get("/recipe/1/show"))
+        .andExpect(status().isNotFound())
+        .andExpect(view().name("/recipes/404error"));
     }
     
     @Test

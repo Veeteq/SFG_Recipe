@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <!-- include the jQuery UI style sheet -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
   </head>
   <body>
 
+<h1 th:text="${datePicker}">Text</h1>
     <form id="datePickerForm" action="datePicker" method="POST">
-      <div id="Datepicker1" name="datePicker"></div>
-      <input type="hidden" id="datePickerValue"/>
+      <div id="Datepicker1"></div>
+      <input type="hidden" id="datePickerValue" name="datePicker"/>
     </form>
     
 
@@ -29,12 +30,13 @@
             altField: "#datePickerValue",
             onSelect: function (dateText, inst) {
               console.log("Selected date: " + dateText);
-              //$('#datePickerForm').submit();
+              $('#datePickerForm').submit();
             }
           });
-          queryDate = '2009-11-01';
-          console.log("queryDate: " + queryDate);
-          var parsedDate = $.datepicker.parseDate('yy-mm-dd', queryDate);
+          var datePicker = "[[${datePicker}]]";
+          console.log("queryDate: " + datePicker);
+          var parsedDate = $.datepicker.parseDate('mm/dd/yy', datePicker);
+          console.log("parsedDate: " + parsedDate);
           $('#Datepicker1').datepicker('setDate', parsedDate);          
         });
           

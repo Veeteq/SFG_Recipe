@@ -6,7 +6,9 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -137,7 +139,19 @@ public class BudgetController {
     public String dateFormat() {
         return "yyyy-MM-dd";
     }
-    
+
+    @GetMapping(path="/datePicker")
+    public String getDatePicker(Model model) {
+    	return "budget/datepicker";
+    }
+
+    @PostMapping(path="/datePicker")
+    public String postDatePicker(@ModelAttribute(name="datePicker") String datePicker, Model model) {
+    	log.debug("datePicker: " + datePicker);
+    	
+    	return "budget/datepicker";
+    }
+
     /*
     @InitBinder
     private void dateBinder(WebDataBinder binder) {

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,7 @@ import com.wojnarowicz.sfg.recipe.service.UnitOfMeasureService;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Profile(value = "h2mem")
 @Slf4j
 public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEvent>{
 

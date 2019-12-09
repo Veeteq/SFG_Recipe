@@ -71,7 +71,7 @@ public class IndexControllerTest {
         ArgumentCaptor<Set<Recipe>> argumentCaptor = ArgumentCaptor.forClass(Set.class);
 
         //when
-        String viewName = controller.getIndexPage();
+        String viewName = controller.getIndexPage(model);
 
 
         //then

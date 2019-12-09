@@ -25,7 +25,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RecipeController {
 
-    private final static String RECIPES_RECIPE_FORM = "recipes/recipeform"; 
+    private final static String RECIPES_RECIPE_FORM = "recipes/edit";
+    private final static String RECIPES_RECIPE_LIST = "recipes/list";
+    private final static String RECIPES_RECIPE_VIEW = "recipes/view";
+
     private final RecipeService recipeService;
     
     @Autowired
@@ -36,9 +39,11 @@ public class RecipeController {
     @GetMapping(path = {"/recipes","/recipes/"})    
     public String getRecipes(Model model) {
         log.debug("RecipeController: getRecipes");
+        
+        model.addAttribute("pageTitle", "Recipe");
         model.addAttribute("recipes", recipeService.findAll());
         
-        return "recipes/recipes";
+        return RECIPES_RECIPE_LIST;
     }
     
     @GetMapping(path = "/recipe/{id}/show")    
@@ -49,7 +54,7 @@ public class RecipeController {
         
         model.addAttribute("recipe", recipeService.findById(longId));
         
-        return "recipes/show";
+        return RECIPES_RECIPE_VIEW;
     }
     
     @GetMapping(path = "/recipe/{id}/edit")

@@ -51,7 +51,7 @@ public class IngredientController {
         
         model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(recipeLongId, ingredientLongId));
         
-        return "recipes/ingredients/show";
+        return "recipes/ingredients/view";
     }
     
     @RequestMapping(path = "/recipe/{recipeId}/ingredient/new", method = RequestMethod.GET)    
@@ -68,7 +68,7 @@ public class IngredientController {
         model.addAttribute("ingredient", ingredientCommand);
         model.addAttribute("uomList", unitOfMeasureService.findAllAsCommand());
         
-        return "recipes/ingredients/ingredientform";
+        return "recipes/ingredients/edit";
     }
     
     @RequestMapping(path = "/recipe/{recipeId}/ingredient/{ingredientId}/edit", method = RequestMethod.GET)    
@@ -81,7 +81,7 @@ public class IngredientController {
         model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(recipeLongId, ingredientLongId));
         model.addAttribute("uomList", unitOfMeasureService.findAllAsCommand());
         
-        return "recipes/ingredients/ingredientform";
+        return "recipes/ingredients/edit";
     }
 
     @RequestMapping(path = "/recipe/{recipeId}/ingredient", method = RequestMethod.POST)    
@@ -95,7 +95,7 @@ public class IngredientController {
         
         //model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(recipeLongId, ingredientLongId));
         
-        return "redirect:/recipe/" + savedIngredientCommand.getRecipeId()+ "/ingredient/" + savedIngredientCommand.getId()+ "/show";
+        return "redirect:/recipe/" + savedIngredientCommand.getRecipeId()+ "/ingredients";
     }
 
     @RequestMapping(path = "/recipe/{recipeId}/ingredient/{ingredientId}/delete", method = RequestMethod.GET)

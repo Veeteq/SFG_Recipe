@@ -72,7 +72,7 @@ public class RecipeControllerTest {
         
         //then
         String viewName = recipeController.getRecipes(model);
-        Assertions.assertEquals("recipes/recipes", viewName);
+        Assertions.assertEquals("recipes/list", viewName);
         
         verify(recipeService, times(1)).findAll();
         verify(model, times(1)).addAttribute(eq("recipes"), eq(recipesSet));
@@ -97,7 +97,7 @@ public class RecipeControllerTest {
         
         mockMvc.perform(get("/recipe/1/show"))
         .andExpect(status().isOk())
-        .andExpect(view().name("recipes/show"))
+        .andExpect(view().name("recipes/view"))
         .andExpect(model().attributeExists("recipe")) 
         .andExpect(model().attribute("recipe", notNullValue()));
     }
@@ -123,14 +123,14 @@ public class RecipeControllerTest {
     public void testMockMVC() throws Exception {        
         mockMvc.perform(get("/recipes/"))
         .andExpect(status().isOk())
-        .andExpect(view().name("recipes/recipes"));
+        .andExpect(view().name("recipes/list"));
     }
     
     @Test
     public void testGetNewRecipeForm() throws Exception {
         mockMvc.perform(get("/recipe/new"))
         .andExpect(status().isOk())
-        .andExpect(view().name("recipes/recipeform"))
+        .andExpect(view().name("recipes/edit"))
         .andExpect(model().attributeExists("recipe"));
     }
     
@@ -145,6 +145,7 @@ public class RecipeControllerTest {
         command.setName(testName);
         command.setDirections(testName);
         command.setTitle(testName);
+        command.setUrl("www.example.com");
         
         //when
         when(recipeService.saveRecipeCommand(any())).thenReturn(command);
@@ -156,7 +157,8 @@ public class RecipeControllerTest {
                 .param("description", "test description")
                 .param("name",  "test name")
                 .param("directions", "test directions")
-                .param("title",  "test title"))
+                .param("title",  "test title")
+                .param("url", "http://www.example.com"))
         
         .andExpect(status().is3xxRedirection())
         .andExpect(view().name("redirect:/recipe/2/show"));
@@ -179,7 +181,7 @@ public class RecipeControllerTest {
                 .param("id",  "2"))
         
         .andExpect(status().isOk())
-        .andExpect(view().name("recipes/recipeform"))
+        .andExpect(view().name("recipes/edit"))
         .andExpect(model().attributeExists("recipe"));
     }
     
@@ -198,7 +200,7 @@ public class RecipeControllerTest {
 
         mockMvc.perform(get("/recipe/2/edit"))
         .andExpect(status().isOk())
-        .andExpect(view().name("recipes/recipeform"))
+        .andExpect(view().name("recipes/edit"))
         .andExpect(model().attributeExists("recipe"));
     }
     

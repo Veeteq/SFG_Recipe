@@ -27,7 +27,7 @@ public class RecipeCommand {
     private String name;
     
     @NotBlank
-    @Size(min = 3, max = 25)
+    @Size(min = 3, max = 255)
     private String title;
     
     @NotBlank
@@ -47,6 +47,7 @@ public class RecipeCommand {
     private Integer servings;
     
     @URL
+    @NotBlank
     private String url;
     
     @NotBlank

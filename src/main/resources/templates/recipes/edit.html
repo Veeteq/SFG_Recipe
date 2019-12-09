@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Bootstrap CSS --> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/sample05.css" type="text/css">
+
+    <title>Recipes</title>
+  </head>
+  <body>
+
+  <div class="wrapper">
+    
+    <nav id="sidebar">
+      <div class="sidebar-header">
+        <h3 th:text="${pageTitle}">PageTitle</h3>
+      </div>
+      <ul class="list-unstyled components">
+        <p><a href="/">Spring Framework Guru</a></p>
+        <li>
+          <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+          <ul class="collapse list-unstyled" id="homeSubmenu">
+            <li><a href="#">Home 1</a></li>
+            <li><a href="#">Home 2</a></li>
+            <li><a href="#">Home 3</a></li>
+          </ul>
+        </li>
+        <li class="active"><a href="/recipes">Recipes</a></li>
+        <li>
+          <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
+          <ul class="collapse list-unstyled" id="pageSubmenu">
+            <li><a href="#">Page 1</a></li>
+            <li><a href="#">Page 2</a></li>
+            <li><a href="#">Page 3</a></li>
+          </ul>
+        </li>
+        <li><a href="/budget">Budget</a></li>
+        <li><a href="#">Contact</a></li>      
+      </ul>
+      <div class="row bottom-align-text">
+        <form id="datePickerForm" action="datePicker" method="POST">
+          <div id="datetimepicker1"></div>
+          <input type="hidden" id="datePickerValue" name="currentDate"/>
+        </form>
+      </div>
+    </nav><!--Sidebar-->
+
+
+    <div id="content">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+
+          <button type="button" id="sidebarCollapse" class="btn btn-info">
+            <i class="fas fa-align-left"></i>
+            <span>Toggle Sidebar</span>
+          </button>
+          <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-align-justify"></i>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav ml-auto">
+              <li class="nav-item active"><a class="nav-link" href="#">Page</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Page</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Page</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Page</a></li>
+            </ul>
+          </div>                      
+        </div>
+      </nav>
+
+      <div id="recipe" class="container-fluid">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <div class="card">
+              <form th:object="${recipe}" th:action="@{/recipe/}" method="POST">
+              <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                <p>There are validation errors!</p>
+              </div>
+              <input type="hidden" th:field="*{id}">
+              <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                  <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/show'}">Show Recipe</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/edit'}">Edit Recipe</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/image'}">Add image</a>                  
+                  </li>
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 form-group">
+                    <label class="form-control-label">Recipe Title:</label>
+                    <input type="text" class="form-control" th:field="*{title}" th:errorclass="is-invalid"/>
+                    <span th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
+                      <ul>
+                        <li th:each="err : ${#fields.errors('title')}" th:text="${err}">
+                      </ul>
+                    </span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 form-group">
+                    <label class="form-control-label">Recipe Name:</label>
+                    <input type="text" class="form-control" th:field="*{name}" th:errorclass="is-invalid"/>
+                    <span th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
+                      <ul>
+                        <li th:each="err : ${#fields.errors('name')}" th:text="${err}">
+                      </ul>
+                    </span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 form-group">
+                    <label>Recipe Description:</label>
+                    <input type="text" class="form-control" th:field="*{description}" th:errorclass="is-invalid"/>
+                    <span th:if="${#fields.hasErrors('*{description}')}" class="invalid-feedback">
+                      <ul>
+                        <li th:each="err : ${#fields.errors('*{description}')}" th:text="${err}">
+                      </ul>
+                    </span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 form-group">
+                    <label>Prep Time:</label>
+                    <input type="text" class="form-control" th:field="*{prepTime}" th:errorclass="is-invalid"/>
+                    <span th:if="${#fields.hasErrors('*{prepTime}')}" class="invalid-feedback">
+                      <ul>
+                        <li th:each="err : ${#fields.errors('*{prepTime}')}" th:text="${err}">
+                      </ul>
+                    </span>
+                  </div>
+                  <div class="col-md-4 form-group">
+                    <label>Cook Time:</label>
+                    <input type="text" class="form-control" th:field="*{cookTime}" th:errorclass="is-invalid"/>
+                    <span th:if="${#fields.hasErrors('*{cookTime}')}" class="invalid-feedback">
+                      <ul>
+                        <li th:each="err : ${#fields.errors('*{cookTime}')}" th:text="${err}">
+                      </ul>
+                    </span>
+                  </div>
+                  <div class="col-md-4 form-group">
+                    <label>Servings:</label>
+                    <input type="text" class="form-control" th:field="*{servings}" th:errorclass="is-invalid"/>
+                    <span th:if="${#fields.hasErrors('*{servings}')}" class="invalid-feedback">
+                      <ul>
+                        <li th:each="err : ${#fields.errors('*{servings}')}" th:text="${err}">
+                      </ul>
+                    </span>
+                  </div>
+                </div>   
+                <div class="row">
+                  <div class="col-md-4 form-group">
+                    <label>Source:</label>
+                    <input type="text" class="form-control" th:field="*{source}"/>
+                  </div>
+                  <div class="col-md-8 form-group">
+                    <label>URL:</label>
+                    <input type="text" class="form-control" th:field="*{url}"/>
+                  </div>
+                </div>                                 
+                <div class="row">
+                  <div class="col-md-5 form-group">
+                    <label>Categories:</label>
+                    <div class="col-md-9 form-group">
+                      <div class="radio">
+                        <label>
+                          <input type="checkbox" value=""/>Cat 1
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-7 form-group">
+                    <label>Difficulty:</label>
+                    <select class="form-control" th:field="*{difficulty}">
+                      <option th:each="difficulty : ${T(com.wojnarowicz.sfg.recipe.domain.Difficulty).values()}"
+                              th:value="${difficulty.name()}"
+                              th:text="${difficulty.name()}">Difficulty</option>
+                    </select>
+                  </div>
+                </div>                                                   
+              </div>
+
+              <div class="card-header">
+                <div class="row">
+                  <div class="col-md-10">
+                    <h1 class="card-title" th:text="'Ingredients'">Ingredients</h1>
+                  </div>
+                  <div class="col-md-2">
+                    <a class="btn btn-light" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}">View</a>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+              </div>
+
+              <div class="card-header">
+                <h1 class="card-title" th:text="'Directions'">Directions</h1>
+              </div>
+              <div class="card-body">
+                <textarea class="form-control" rows="3" th:field="*{directions}"></textarea>
+              </div>
+
+              <div class="card-header">
+                <h1 class="card-title" th:text="'Notes'">Notes</h1>
+              </div>
+              <div class="card-body">
+                <textarea class="form-control" rows="3" th:field="*{notes.notes}"></textarea>                  
+              </div>                    
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+                          
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional JavaScript -->
+  <!-- include jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+  <!-- include Popper.js, then Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+  <script src="/js/sample05.js" type="text/javascript"></script>
+  </body>
+</html>

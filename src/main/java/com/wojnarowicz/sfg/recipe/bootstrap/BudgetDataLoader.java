@@ -53,11 +53,11 @@ public class BudgetDataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (Files.exists(baseDirectory)) {
-            loadCategories(true);
-            loadItems(true);
-            loadUsers(true);
-            loadIncomes(true);
-            loadExpenses(true);
+            loadCategories(false);
+            loadItems(false);
+            loadUsers(false);
+            loadIncomes(false);
+            loadExpenses(false);
         }
     }
 

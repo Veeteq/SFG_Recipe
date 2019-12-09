@@ -75,7 +75,6 @@ public class BudgetController {
         log.debug("BudgetController: getExpenseForm");
         
         LocalDate operDate = LocalDate.now();            
-    	//Expense expense = new Expense();
     	Expense expense = Expense.builder()
         .operDate(operDate)
         .count(BigDecimal.ZERO)
@@ -142,14 +141,18 @@ public class BudgetController {
 
     @GetMapping(path="/datePicker")
     public String getDatePicker(Model model) {
-    	return "budget/datepicker";
+        
+        LocalDate currentDate = LocalDate.now();         
+        model.addAttribute("currentDate", currentDate);
+        
+    	return "budget/sample05";
     }
 
     @PostMapping(path="/datePicker")
-    public String postDatePicker(@ModelAttribute(name="datePicker") String datePicker, Model model) {
-    	log.debug("datePicker: " + datePicker);
+    public String postDatePicker(@ModelAttribute(name="currentDate") String currentDate, Model model) {
+    	log.debug("currentDate: " + currentDate);
     	
-    	return "budget/datepicker";
+    	return "budget/sample05";
     }
 
     /*

@@ -75,7 +75,7 @@ class IngredientControllerTest {
         
         mockMvc.perform(get("/recipe/1/ingredient/2/show"))
         .andExpect(status().isOk())
-        .andExpect(view().name("recipes/ingredients/show"))
+        .andExpect(view().name("recipes/ingredients/view"))
         .andExpect(model().attributeExists("ingredient"));
     }
     
@@ -89,7 +89,7 @@ class IngredientControllerTest {
         
         mockMvc.perform(get("/recipe/3/ingredient/new"))
         .andExpect(status().isOk())
-        .andExpect(view().name("recipes/ingredients/ingredientform"))
+        .andExpect(view().name("recipes/ingredients/edit"))
         .andExpect(model().attributeExists("ingredient"))
         .andExpect(model().attributeExists("uomList"));
         
@@ -107,7 +107,7 @@ class IngredientControllerTest {
         
         mockMvc.perform(get("/recipe/3/ingredient/2/edit"))
         .andExpect(status().isOk())
-        .andExpect(view().name("recipes/ingredients/ingredientform"))
+        .andExpect(view().name("recipes/ingredients/edit"))
         .andExpect(model().attributeExists("ingredient"))
         .andExpect(model().attributeExists("uomList"));
     }
@@ -125,7 +125,7 @@ class IngredientControllerTest {
                 .param("id", "")
                 .param("name", "Ingredient name"))
         .andExpect(status().is3xxRedirection())
-        .andExpect(view().name("redirect:/recipe/3/ingredient/2/show"));
+        .andExpect(view().name("redirect:/recipe/3/ingredients"));
     }
 
     @Test

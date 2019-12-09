@@ -3,20 +3,34 @@
   <head>
     <!-- include the jQuery UI style sheet -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">    
   </head>
   <body>
-
-<h1 th:text="${datePicker}">Text</h1>
-    <form id="datePickerForm" action="datePicker" method="POST">
-      <div id="Datepicker1"></div>
-      <input type="hidden" id="datePickerValue" name="datePicker"/>
-    </form>
+    <div class="container-fluid">
+      <div class="row">
+        <h1 th:text="${datePicker}">Text</h1>
+      </div>
+      <div class="row">
+      <div class="col-sd-1 border fixed-bottom">
+        <form id="datePickerForm" action="datePicker" method="POST">
+          <div id="Datepicker1"></div>
+          <input type="hidden" id="datePickerValue" name="datePicker"/>
+        </form>
+      </div>
+      <div class="col-sd-11 border">
+        Text 2
+      </div>
+    </div>
+    </div>
     
 
     <!-- include jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- include jQuery UI -->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>    
 
     <script type="text/javascript">
       $(function () {        
@@ -33,7 +47,7 @@
               $('#datePickerForm').submit();
             }
           });
-          var datePicker = "[[${datePicker}]]";
+          var datePicker = "11/11/2011"; //"[[${datePicker}]]";
           console.log("queryDate: " + datePicker);
           var parsedDate = $.datepicker.parseDate('mm/dd/yy', datePicker);
           console.log("parsedDate: " + parsedDate);

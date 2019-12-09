@@ -23,6 +23,8 @@ import com.wojnarowicz.sfg.recipe.service.RecipeService;
 @Controller
 public class ImageController {
 
+    private final static String RECIPES_RECIPE_ADD_IMAGE = "recipes/addImage";
+    
     private final ImageService imageService;
     private final RecipeService recipeService;
 
@@ -41,7 +43,7 @@ public class ImageController {
         
         model.addAttribute("recipe", recipeCommand);
         
-        return "/recipes/uploadimageform";
+        return RECIPES_RECIPE_ADD_IMAGE;
     }
     
     @PostMapping(path = "recipe/{recipeId}/image")

@@ -25,7 +25,7 @@ import com.wojnarowicz.sfg.recipe.service.UnitOfMeasureService;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
-@Profile(value = "h2mem")
+@Profile(value = {"h2mem"})
 @Slf4j
 public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEvent>{
 

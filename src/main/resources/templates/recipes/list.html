@@ -85,10 +85,10 @@
                   <table id="recipes" class="table table-hover">
                     <thead class="thead-light">                
                       <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Action</th>
+                        <th th:text=#{recipe.id}>ID</th>
+                        <th th:text=#{recipe.name}>Name</th>
+                        <th th:text=#{recipe.difficulty}>Difficulty</th>
+                        <th th:text=#{recipe.action}>Action</th>
                       </tr>
                     </thead>
                     <tbody>

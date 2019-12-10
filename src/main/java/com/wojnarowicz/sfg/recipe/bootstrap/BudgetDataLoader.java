@@ -29,7 +29,7 @@ import com.wojnarowicz.sfg.recipe.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
-@Profile(value = "h2mem")
+@Profile(value = {"h2mem"})
 @Slf4j
 public class BudgetDataLoader implements CommandLineRunner {
 
@@ -55,11 +55,11 @@ public class BudgetDataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (Files.exists(baseDirectory)) {
-            loadCategories(false);
-            loadItems(false);
-            loadUsers(false);
-            loadIncomes(false);
-            loadExpenses(false);
+            loadCategories(true);
+            loadItems(true);
+            loadUsers(true);
+            loadIncomes(true);
+            loadExpenses(true);
         }
     }
 

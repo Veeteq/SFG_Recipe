@@ -1,8 +1,24 @@
-$(document).ready(function () {
+$(document).ready(function() {
   $('#sidebarCollapse').on('click', function () {
       $('#sidebar').toggleClass('active');
   });
 });
+
+$(document).ready(function($) {
+  $("#count, #price").on("keydown keyup", function() {
+    sum();
+  });
+});
+
+$(function sum() {
+  var count = document.getElementById('count').value;
+  var price = document.getElementById('price').value;
+  var total = parseFloat(count) * parseFloat(price);
+  if (!isNaN(total)) {
+    document.getElementById('total').value = total.toFixed(2);
+  }
+});     
+
 
 $(function () {        
   var el = this;

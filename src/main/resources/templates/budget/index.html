@@ -1,43 +1,86 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">   
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link rel="shortcut icon" type="image/x-icon" src="/resources/images/favicon.png">
-
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Bootstrap CSS --> 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/sample05.css" type="text/css">
 
-    <title>Home budget</title>
-</head>
+    <title>Page Title</title>
+  </head>
+  <body>
 
-<body>
-  <nav class="navbar navbar-expand navbar-dark bg-dark">
-    <a href="/" class="navbar-brand">Home</a>
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item"><a href="/users" class="nav-link">Users</a></li>
-        <li class="nav-item"><a href="/items" class="nav-link">Items</a></li>
-        <li class="nav-item"><a href="/categories" class="nav-link">Categories</a></li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New</a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/expense/new">Expense</a>
-            <a class="dropdown-item" href="/income/new">Income</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/finevent/new">Financial event</a>
-          </div>
+  <div class="wrapper">
+
+    <nav id="sidebar">
+      <div class="sidebar-header">
+        <h3 th:text="${pageTitle}">PageTitle</h3>
+      </div>
+      <ul class="list-unstyled components">
+        <p><a href="/">Spring Framework Guru</a></p>
+        <li>
+          <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed">Home</a>
+          <ul class="collapse list-unstyled" id="homeSubmenu">
+            <li><a href="#">Home 1</a></li>
+            <li><a href="#">Home 2</a></li>
+            <li><a href="#">Home 3</a></li>
+          </ul>
         </li>
+        <li><a href="/recipes">Recipes</a></li>
+        <li>
+          <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
+          <ul class="collapse list-unstyled" id="pageSubmenu">
+            <li><a href="#">Page 1</a></li>
+            <li><a href="#">Page 2</a></li>
+            <li><a href="#">Page 3</a></li>
+          </ul>
+        </li>
+        <li class="active"><a href="/budget">Budget</a></li>
+        <li><a href="#">Contact</a></li>      
       </ul>
+      <div class="row bottom-align-text">
+        <form id="datePickerForm" action="datePicker" method="POST">
+          <div id="datetimepicker1"></div>
+          <input type="hidden" id="datePickerValue" name="currentDate"/>
+        </form>
+      </div>
+    </nav><!--Sidebar-->
+
+    <div id="content">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a href="/" class="navbar-brand">Home</a>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav ml-auto">
+              <li class="nav-item"><a href="/users" class="nav-link">Users</a></li>
+              <li class="nav-item"><a href="/items" class="nav-link">Items</a></li>
+              <li class="nav-item"><a href="/categories" class="nav-link">Categories</a></li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New</a>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="/expense/new">Expense</a>
+                  <a class="dropdown-item" href="/income/new">Income</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="/finevent/new">Financial event</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
     </div>
-  </nav>
+  </div>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"  th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js" th:src="@{/webjars/popper.js/1.15.0/umd/popper.min.js}"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-
-</body>
+  <!-- Optional JavaScript -->
+  <!-- include jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+  <!-- include Popper.js, then Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+  <script src="/js/sample05.js" type="text/javascript"></script>
+  </body>
 </html>

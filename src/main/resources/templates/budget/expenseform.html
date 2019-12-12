@@ -90,6 +90,21 @@
         <div class="row">
           <div class="col-md-4">
             <div class="card card-primary">
+              <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#">Expense</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Income</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                  </li>
+                </ul>
+              </div>
+            <div class="card-body">
+              <h5 class="card-title">Enter new expense</h5>
               <form th:object="${expense}" th:action="@{/expense/}" method="POST">
               <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
                 <p>There are validation errors!</p>
@@ -164,6 +179,7 @@
               </form>
             </div>
           </div>
+        </div>
 
           <div class="col-md-8">
             <div class="table-responsive" th:if="${not #lists.isEmpty(expenses)}">

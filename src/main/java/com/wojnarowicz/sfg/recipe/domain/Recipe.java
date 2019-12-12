@@ -30,6 +30,7 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name="recipes")
 @AttributeOverride(name = "id", column = @Column(name = "recipe_id"))
+@AttributeOverride(name = "name", column = @Column(name = "recipe_name"))
 @SequenceGenerator(name="default_seq", sequenceName="recipe_seq", allocationSize=1)
 @Getter
 @Setter

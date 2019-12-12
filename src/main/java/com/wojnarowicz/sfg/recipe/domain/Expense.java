@@ -35,7 +35,7 @@ public class Expense extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 	
-	@Column(name = "expe_oper_dt")
+	@Column(name = "oper_dt")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate operDate;
 	

@@ -15,6 +15,7 @@ import lombok.Setter;
 @Entity
 @Table(name="recipe_categories")
 @AttributeOverride(name = "id", column = @Column(name = "category_id"))
+@AttributeOverride(name = "name", column = @Column(name = "category_name"))
 @SequenceGenerator(name="default_seq", sequenceName="recipe_category_seq", allocationSize=1)
 @Getter
 @Setter

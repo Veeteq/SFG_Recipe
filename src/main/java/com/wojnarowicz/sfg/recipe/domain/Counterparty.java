@@ -14,7 +14,7 @@ import lombok.Setter;
 @Table(name = "counterparties")
 @AttributeOverride(name = "id", column = @Column(name = "cprt_id"))
 @AttributeOverride(name = "name", column = @Column(name = "cprt_name_tx"))
-@SequenceGenerator(name = "default_seq", sequenceName = "pcrt_seq", allocationSize = 1)
+@SequenceGenerator(name = "default_seq", sequenceName = "cprt_seq", allocationSize = 1)
 @Getter
 @Setter
 @NoArgsConstructor

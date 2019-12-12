@@ -3,20 +3,25 @@ package com.wojnarowicz.sfg.recipe.controller;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.wojnarowicz.sfg.recipe.domain.Expense;
+import com.wojnarowicz.sfg.recipe.command.ExpenseCommand;
 import com.wojnarowicz.sfg.recipe.service.CategoryService;
 import com.wojnarowicz.sfg.recipe.service.ExpenseService;
 import com.wojnarowicz.sfg.recipe.service.ItemService;
 import com.wojnarowicz.sfg.recipe.service.UserService;
+import com.wojnarowicz.sfg.recipe.utils.DateUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +29,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BudgetController {
 
+    private final static String BUDGET_EXPENSE_FORM = "budget/expenseform";
+    private final static String BUDGET_INDEX_PAGE = "budget/index";
+    
     private final CategoryService categoryService;
     private final ItemService itemService;
     private final UserService userService;
@@ -41,7 +49,7 @@ public class BudgetController {
     public String getBudgetPage(Model model) {
         log.debug("BudgetController: getBudgetPage");
                 
-        return "budget/index";
+        return BUDGET_INDEX_PAGE;
     }
     
     @RequestMapping(path = {"/users","/users/"})    
@@ -71,70 +79,66 @@ public class BudgetController {
     }
 
     @RequestMapping(path = "/expense/new", method = RequestMethod.GET)
-    public String getExpenseForm(Model model) {
+    public String getExpenseForm(@RequestParam(required = false) String date, Model model) {
         log.debug("BudgetController: getExpenseForm");
+        log.debug("BudgetController: PathVariable date: " + date);
         
-        LocalDate operDate = LocalDate.now();            
-    	Expense expense = Expense.builder()
-        .operDate(operDate)
-        .count(BigDecimal.ZERO)
-        .price(BigDecimal.ONE)
-        .build();
+        LocalDate operDate;
+        
+        if(date == null || date.isEmpty()) {
+            operDate = LocalDate.now();            
+        } else {
+            operDate = DateUtil.parse(date);
+        }
+                            
+    	ExpenseCommand expenseCommand = new ExpenseCommand();
+    	expenseCommand.setOperDate(operDate);
+    	expenseCommand.setCount(BigDecimal.ONE);
+    	expenseCommand.setPrice(BigDecimal.ZERO);
         
         log.debug("dateFormat: " + dateFormat());
         log.debug("currentDate: " + operDate.toString());
         
         model.addAttribute("dateFormat", dateFormat());        
-        model.addAttribute("expense", expense);
+        model.addAttribute("expense", expenseCommand);
         model.addAttribute("currentDate", operDate);
         model.addAttribute("users", userService.findAll());
         model.addAttribute("items", itemService.findAll());
         model.addAttribute("expenses", expenseService.findByOperDate(operDate));
         
-        return "budget/expenseform";
-    }
-    
-    @RequestMapping(params = "!submitBtn", path = "/expense", method = RequestMethod.POST)
-    public String onDateChangeForm(@ModelAttribute(name = "expense") Expense expense, Model model) {
-        log.debug("BudgetController: dateChangeForm");
-        
-        LocalDate operDate = expense.getOperDate();
-        
-        model.addAttribute("dateFormat", dateFormat());
-        model.addAttribute("currentDate", operDate);
-        model.addAttribute("expense", expense);
-        model.addAttribute("users", userService.findAll());
-        model.addAttribute("items", itemService.findAll());
-        model.addAttribute("expenses", expenseService.findByOperDate(operDate));
-        
-        return "budget/expenseform";
+        return BUDGET_EXPENSE_FORM;
     }
 
-    @RequestMapping(params = "submitBtn", path = "/expense", method = RequestMethod.POST)
-    public String addOrUpdateExpense(@ModelAttribute(name = "expense") Expense expense, Model model) {
+    @PostMapping(path = "/expense")
+    public String addOrUpdateExpense(@Valid @ModelAttribute(name = "expense") ExpenseCommand expenseCommand, BindingResult result, Model model) {
         log.debug("BudgetController: addOrUpdateExpense");
-        
-        LocalDate operDate = expense.getOperDate();
+
+        LocalDate operDate = expenseCommand.getOperDate();
         
         System.out.println(operDate.toString());
-        System.out.println(expense.getCount());
-    	expense.setPrice(expense.getPrice().add(BigDecimal.ONE));
+        System.out.println(expenseCommand.getCount());
+        expenseCommand.setPrice(expenseCommand.getPrice().add(BigDecimal.ONE));
     	
-    	System.out.println(expense.getItem().getCategory().getName());
+    	//System.out.println(expenseCommand.getItem().getCategory().getName());
     	
-    	model.addAttribute("dateFormat", dateFormat());
     	model.addAttribute("currentDate", operDate);
-    	model.addAttribute("expense", expense);
     	model.addAttribute("users", userService.findAll());
     	model.addAttribute("items", itemService.findAll());
     	model.addAttribute("expenses", expenseService.findByOperDate(operDate));
+
+        if(result.hasErrors()) {
+            result.getAllErrors().forEach(err -> {
+                log.debug(err.toString());
+            });
+            return BUDGET_EXPENSE_FORM;
+        }
         
-    	expenseService.save(expense);
+    	expenseService.saveExpenseCommand(expenseCommand);
     	
         return "redirect:/expense/new";
     }
 
-    @ModelAttribute
+    @ModelAttribute(name = "dateFormat")
     public String dateFormat() {
         return "yyyy-MM-dd";
     }

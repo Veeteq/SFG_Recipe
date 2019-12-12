@@ -7,6 +7,9 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wojnarowicz.sfg.recipe.command.ExpenseCommand;
+import com.wojnarowicz.sfg.recipe.converter.ExpenseCommandToExpense;
+import com.wojnarowicz.sfg.recipe.converter.ExpenseToExpenseCommand;
 import com.wojnarowicz.sfg.recipe.domain.Expense;
 import com.wojnarowicz.sfg.recipe.repository.ExpenseRepository;
 import com.wojnarowicz.sfg.recipe.service.ExpenseService;
@@ -18,10 +21,14 @@ import lombok.extern.log4j.Log4j2;
 public class ExpenseServiceImpl implements ExpenseService {
 	
 	private final ExpenseRepository expenseRepository;
+	private final ExpenseCommandToExpense expenseCommandToExpense;
+	private final ExpenseToExpenseCommand expenseToExpenseCommand;
 
     @Autowired
-	public ExpenseServiceImpl(ExpenseRepository expenseRepository) {
-	    this.expenseRepository = expenseRepository;
+    public ExpenseServiceImpl(ExpenseRepository expenseRepository, ExpenseCommandToExpense expenseCommandToExpense, ExpenseToExpenseCommand expenseToExpenseCommand) {
+        this.expenseRepository = expenseRepository;
+        this.expenseCommandToExpense = expenseCommandToExpense;
+        this.expenseToExpenseCommand = expenseToExpenseCommand;
     }
 
     @Override
@@ -50,5 +57,14 @@ public class ExpenseServiceImpl implements ExpenseService {
     public Expense save(Expense expense) {
         log.debug("ExpenseService: save");
         return expenseRepository.save(expense);
+    }
+
+    @Override
+    public ExpenseCommand saveExpenseCommand(ExpenseCommand expenseCommand) {
+        Expense expense = expenseCommandToExpense.convert(expenseCommand);
+
+        Expense savedExpense = expenseRepository.save(expense);
+        log.debug("expense saved with id: ", savedExpense.getId());
+        return expenseToExpenseCommand.convert(savedExpense);
     }
 }

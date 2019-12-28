@@ -12,7 +12,7 @@ import com.wojnarowicz.sfg.recipe.domain.Notes;
 
 public class NotesCommandToNotesTest {
 
-    public static final Long ID_VALUE = new Long(1L);
+    public static final Long ID_VALUE = Long.valueOf(1L);
     public static final String RECIPE_NOTES = "Notes";
     NotesCommandToNotes converter;
 

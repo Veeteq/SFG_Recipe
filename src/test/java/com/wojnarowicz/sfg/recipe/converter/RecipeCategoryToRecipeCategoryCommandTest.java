@@ -15,7 +15,7 @@ import com.wojnarowicz.sfg.recipe.domain.RecipeCategory;
  */
 public class RecipeCategoryToRecipeCategoryCommandTest {
 
-    public static final Long ID_VALUE = new Long(1L);
+    public static final Long ID_VALUE = Long.valueOf(1L);
     public static final String DESCRIPTION = "descript";
     RecipeCategoryToRecipeCategoryCommand convter;
 

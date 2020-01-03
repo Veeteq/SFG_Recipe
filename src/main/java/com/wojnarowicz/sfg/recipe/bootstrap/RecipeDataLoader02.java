@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Profile(value = {"h2mem"})
 @Slf4j
-public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEvent>{
+public class RecipeDataLoader02 implements ApplicationListener<ContextRefreshedEvent>{
 
     private RecipeCategoryService recipeCategoryService;
     private UnitOfMeasureService unitOfMeasureService;
@@ -40,7 +40,7 @@ public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEve
     private final Map<String, RecipeCategory> categories;
     
     @Autowired
-    public RecipeDataLoader(RecipeService recipeService, RecipeCategoryService recipeCategoryService, UnitOfMeasureService unitOfMeasureService) {
+    public RecipeDataLoader02(RecipeService recipeService, RecipeCategoryService recipeCategoryService, UnitOfMeasureService unitOfMeasureService) {
         this.recipeService = recipeService;
         this.recipeCategoryService = recipeCategoryService;
         this.unitOfMeasureService = unitOfMeasureService;

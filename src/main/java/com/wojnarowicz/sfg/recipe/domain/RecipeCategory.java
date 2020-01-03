@@ -10,7 +10,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name="recipe_categories")
@@ -19,6 +21,8 @@ import lombok.Setter;
 @SequenceGenerator(name="default_seq", sequenceName="recipe_category_seq", allocationSize=1)
 @Getter
 @Setter
+@SuperBuilder
+@NoArgsConstructor
 public class RecipeCategory extends NamedEntity {
 
     private static final long serialVersionUID = 1L;

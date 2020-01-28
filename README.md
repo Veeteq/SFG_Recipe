@@ -11,3 +11,5 @@ https://www.udemy.com/course/spring-framework-5-beginner-to-guru/
 - https://stackabuse.com/how-to-test-a-spring-boot-application/
 - https://bootstrapious.com/p/bootstrap-sidebar
 - https://tempusdominus.github.io/bootstrap-4/
+- https://github.com/ppatil9096/books
+- https://api.predic8.de/shop/docs#/

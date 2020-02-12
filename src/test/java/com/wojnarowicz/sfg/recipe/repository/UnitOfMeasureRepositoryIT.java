@@ -13,9 +13,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.wojnarowicz.sfg.recipe.domain.UnitOfMeasure;
 
-/**
- * Created by jt on 6/17/17.
- */
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class UnitOfMeasureRepositoryIT {

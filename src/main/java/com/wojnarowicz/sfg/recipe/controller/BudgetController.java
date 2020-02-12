@@ -105,6 +105,7 @@ public class BudgetController {
         model.addAttribute("users", userService.findAll());
         model.addAttribute("items", itemService.findAll());
         model.addAttribute("expenses", expenseService.findByOperDate(operDate));
+        model.addAttribute("dailySummary", expenseService.getDailySummaryByUser(operDate));
         
         return BUDGET_EXPENSE_FORM;
     }

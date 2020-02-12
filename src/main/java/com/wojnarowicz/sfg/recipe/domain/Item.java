@@ -5,8 +5,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +20,9 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "items")
 @AttributeOverride(name = "id", column = @Column(name = "item_id"))
 @AttributeOverride(name = "name", column = @Column(name = "item_name_tx"))
-@SequenceGenerator(name = "default_seq", sequenceName = "item_seq", allocationSize = 1)
+@GenericGenerator(name = "default_seq", 
+                  strategy = "com.wojnarowicz.sfg.recipe.domain.BudgetSequenceGenerator", 
+                  parameters = {@Parameter(name="sequence_name", value="item_seq")})
 @Getter
 @Setter
 @NoArgsConstructor

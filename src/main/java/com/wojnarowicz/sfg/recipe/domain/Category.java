@@ -8,8 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +23,9 @@ import lombok.experimental.SuperBuilder;
 @Table(name="categories")
 @AttributeOverride(name = "id", column = @Column(name = "cate_id"))
 @AttributeOverride(name = "name", column = @Column(name = "cate_name_tx"))
-@SequenceGenerator(name="default_seq", sequenceName="cate_seq", allocationSize=1)
+@GenericGenerator(name = "default_seq", 
+                  strategy = "com.wojnarowicz.sfg.recipe.domain.BudgetSequenceGenerator", 
+                  parameters = {@Parameter(name="sequence_name", value="cate_seq")})
 @Getter
 @Setter
 @NoArgsConstructor

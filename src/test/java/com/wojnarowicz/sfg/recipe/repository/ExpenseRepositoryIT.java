@@ -16,44 +16,36 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.wojnarowicz.sfg.recipe.bootstrap.BudgetTestDataLoader;
 import com.wojnarowicz.sfg.recipe.domain.Expense;
 import com.wojnarowicz.sfg.recipe.dto.IDailySummaryByUser;
-import com.wojnarowicz.sfg.recipe.service.CategoryService;
-import com.wojnarowicz.sfg.recipe.service.ExpenseService;
-import com.wojnarowicz.sfg.recipe.service.IncomeService;
-import com.wojnarowicz.sfg.recipe.service.ItemService;
-import com.wojnarowicz.sfg.recipe.service.UserService;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 class ExpenseRepositoryIT {
 
     @Autowired
-    private CategoryService categoryService;
+    private CategoryRepository categoryRepository;
     
     @Autowired
-    private ItemService itemService;
+    private ItemRepository itemRepository;
     
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
     
     @Autowired
-    private IncomeService incomeService;
-    
-    @Autowired
-    private ExpenseService expenseService;
+    private IncomeRepository incomeRepository;
     
     @Autowired
     private ExpenseRepository expenseRepository;
     
     @BeforeEach
     void setUp() throws Exception {
-        BudgetTestDataLoader dataLoader = new BudgetTestDataLoader(categoryService, itemService, userService, incomeService, expenseService);
+        BudgetTestDataLoader dataLoader = new BudgetTestDataLoader(categoryRepository, itemRepository, userRepository, incomeRepository, expenseRepository);
         dataLoader.run();
     }
 
     @Test
     void testFindExpensesByDate() {
         LocalDate operDate = LocalDate.of(2019, Month.OCTOBER, 25);
-        Set<Expense> expenses = expenseService.findByOperDate(operDate);
+        Set<Expense> expenses = expenseRepository.findByOperDate(operDate);
         assertEquals(5, expenses.size());
     }
     

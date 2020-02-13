@@ -9,7 +9,9 @@ import com.wojnarowicz.sfg.recipe.domain.Category;
 
 public interface CategoryRepository extends CrudRepository<Category, Long>{
 
-    Set<Category> findAllByOrderById();
-    
     Optional<Category> findByName(String name);
+
+    Set<Category> findAllByOrderById();
+
+    Set<Category> findAllByOrderByName();
 }

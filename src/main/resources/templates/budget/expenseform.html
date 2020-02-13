@@ -89,6 +89,7 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-4">
+            <div class="row">
             <div class="card card-primary">
               <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs">
@@ -96,7 +97,7 @@
                     <a class="nav-link active" href="#">Expense</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Income</a>
+                    <a class="nav-link" th:href="@{/income/new(date=${currentDate})}" href="/income/new">Income</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link disabled" href="#">Disabled</a>
@@ -113,13 +114,13 @@
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="date-input" class="col-form-label col-form-label-sm pl-3" th:text="'Date'">Date</label>
-                  <input class="form-control form-control-sm" type="date" th:type="date" th:value="${#temporals.format(expense.operDate, dateFormat)}" id="date-input" th:name="operDate"> <!-- th:field="*{operDate}"   onchange="this.form.submit()"-->        
+                  <input class="form-control form-control-sm" type="date" th:type="date" th:value="${#temporals.format(expense.operationDate, dateFormat)}" id="date-input" th:name="operationDate" autofocus> <!-- th:field="*{operationDate}"   onchange="this.form.submit()"-->        
                 </div>      
                 <div class="form-group col-md-6">
                   <label for="user-input" class="col-form-label col-form-label-sm">User</label>
-                  <select class="form-control form-control-sm" name="user" id="user-input" th:field="*{user}" th:errorclass="is-invalid">
+                  <select class="form-control form-control-sm" name="user" id="user-input" th:errorclass="is-invalid" autofocus>
                     <option value=""> -- </option>
-                    <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.name}"/>
+                    <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.name}" th:selected="${user.id}==${lastUsedUserId}"/>
                   </select>
                   <span th:if="${#fields.hasErrors('user')}" class="invalid-feedback">
                     <ul>
@@ -146,7 +147,7 @@
 
               <div class="form-row">
                 <div class="form-group col-md-4">
-                  <label for="count" th:text="${'count: ' + expense.count}">Count</label>
+                  <label for="count">Count</label>
                   <input class="form-control form-control-sm" type="text" id="count" th:field="*{count}" th:errorclass="is-invalid"/><!-- th:value="${#numbers.formatDecimal(expense.count, 1, 3, 'DEFAULT')}" -->
                   <span th:if="${#fields.hasErrors('count')}" class="invalid-feedback">
                     <ul>
@@ -165,7 +166,7 @@
                 </div>              
                 <div class="form-group col-md-4">
                   <label for="total">Total</label>
-                  <input class="form-control form-control-sm" type="text" id="total" readonly>        
+                  <input class="form-control form-control-sm" type="text" id="total" tabindex="-1" readonly>        
                 </div>                  
               </div>
   
@@ -177,6 +178,42 @@
               </div>        
               <button id="submitBtn" type="submit" class="btn btn-primary" name="submitBtn" value="submitBtn">Submit</button>
               </form>
+            </div>
+          </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="table-responsive" th:if="${not #lists.isEmpty(dailySummary)}">
+              <table id="dailySummary" class="table table-striped table-hover table-bordered table-sm">
+                <thead class="thead-light">                
+                  <tr>
+                    <th class="text-sm-center pr-3">User</th>                    
+                    <th>Wydatki</th>
+                    <th>Przychody</th>
+                    <th>Transfer -</th>
+                    <th>Transfer +</th>
+                    <th>Suma</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="element : ${dailySummary}">
+                    <td th:text="${element.userName}">key</td>
+                    <td th:text="${element.nonTransferDebit}" class="text-sm-right pr-3">value</td>
+                    <td th:text="${element.nonTransferCredit}" class="text-sm-right pr-3">value</td>
+                    <td th:text="${element.transferDebit}" class="text-sm-right pr-3">value</td>
+                    <td th:text="${element.transferCredit}" class="text-sm-right pr-3">value</td>
+                    <td th:text="${element.getTotal()}" class="text-sm-right pr-3">value</td>
+                  </tr>
+                  <tr>
+                    <td><b>Total:</b></td>
+                    <td class="text-sm-right pr-3"><b th:text="${#aggregates.sum(dailySummary.![nonTransferDebit])}"></b></td>
+                    <td class="text-sm-right pr-3"><b th:text="${#aggregates.sum(dailySummary.![nonTransferCredit])}"></b></td>
+                    <td class="text-sm-right pr-3"><b th:text="${#aggregates.sum(dailySummary.![transferDebit])}"></b></td>
+                    <td class="text-sm-right pr-3"><b th:text="${#aggregates.sum(dailySummary.![transferCredit])}"></b></td>
+                    <td class="text-sm-right pr-3"><b th:text="${#aggregates.sum(dailySummary.![getTotal()])}"></b></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

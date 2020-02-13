@@ -24,7 +24,7 @@ public class ExpenseCommand {
  
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate operDate;
+    private LocalDate operationDate;
     
     @NotNull
     private User user;

@@ -1,6 +1,6 @@
 package com.wojnarowicz.sfg.recipe.service;
 
-import java.util.Set;
+import java.util.List;
 
 import com.wojnarowicz.sfg.recipe.domain.Item;
 
@@ -10,5 +10,5 @@ public interface ItemService {
 
     Item save(Item item);
 
-    Set<Item> findAll();
+    List<Item> findAll();
 }

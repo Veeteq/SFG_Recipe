@@ -19,7 +19,7 @@ public class ExpenseCommandToExpense implements Converter<ExpenseCommand, Expens
         }
         final Expense expense = new Expense();
         expense.setId(source.getId());
-        expense.setOperDate(source.getOperDate());
+        expense.setOperationDate(source.getOperationDate());
         expense.setUser(source.getUser());
         expense.setItem(source.getItem());
         expense.setCount(source.getCount());

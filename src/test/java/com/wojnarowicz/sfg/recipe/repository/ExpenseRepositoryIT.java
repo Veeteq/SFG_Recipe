@@ -44,15 +44,15 @@ class ExpenseRepositoryIT {
 
     @Test
     void testFindExpensesByDate() {
-        LocalDate operDate = LocalDate.of(2019, Month.OCTOBER, 25);
-        Set<Expense> expenses = expenseRepository.findByOperDate(operDate);
+        LocalDate operationDate = LocalDate.of(2019, Month.OCTOBER, 25);
+        Set<Expense> expenses = expenseRepository.findByOperationDate(operationDate);
         assertEquals(5, expenses.size());
     }
     
     @Test
     void testRunNativeQuery() {
-        LocalDate operDate = LocalDate.of(2019, Month.OCTOBER, 25);
-        Set<IDailySummaryByUser> expenses = expenseRepository.findDailySummaryByUser(operDate);
+        LocalDate operationDate = LocalDate.of(2019, Month.OCTOBER, 25);
+        Set<IDailySummaryByUser> expenses = expenseRepository.findDailySummaryByUser(operationDate);
         assertEquals(4, expenses.size());
         expenses.forEach(expense -> System.out.println(expense.getTransferFlag()));
     }

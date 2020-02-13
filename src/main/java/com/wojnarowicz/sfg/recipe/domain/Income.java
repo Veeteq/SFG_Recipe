@@ -1,6 +1,7 @@
 package com.wojnarowicz.sfg.recipe.domain;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 import javax.persistence.AttributeOverride;
@@ -51,4 +52,7 @@ public class Income extends BaseEntity {
     @JoinColumn(name="user_id", nullable=false)
     private User user;
 
+    public BigDecimal getTotal() {
+        return this.amount.setScale(2, RoundingMode.HALF_EVEN);
+    }
 }

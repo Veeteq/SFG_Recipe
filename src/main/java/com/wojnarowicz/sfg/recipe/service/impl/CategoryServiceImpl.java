@@ -40,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
         log.debug("CategoryService: findAll");
         Set<Category> categories = new TreeSet<>();
 
-        categoryRepository.findAllByOrderById().iterator().forEachRemaining(categories::add);
+        categoryRepository.findAllByOrderByName().iterator().forEachRemaining(categories::add);
 
         return categories;
     }

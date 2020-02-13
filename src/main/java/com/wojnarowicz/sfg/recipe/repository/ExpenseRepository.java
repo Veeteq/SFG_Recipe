@@ -11,7 +11,7 @@ import com.wojnarowicz.sfg.recipe.dto.IDailySummaryByUser;
 
 public interface ExpenseRepository extends CrudRepository<Expense, Long>{
 
-	Set<Expense> findByOperDate(LocalDate operDate);
+	Set<Expense> findByOperationDate(LocalDate operationDate);
 
     @Query(value = "SELECT DECODE(i.ITEM_NAME_TX, '_Transfer', 1, 0) transferFlag," + 
             "       u.USER_NAME_TX userName," + 
@@ -21,10 +21,10 @@ public interface ExpenseRepository extends CrudRepository<Expense, Long>{
             "       USERS AS u" + 
             " WHERE e.ITEM_ID = i.ITEM_ID" + 
             "   AND e.USER_ID = u.USER_ID" + 
-            "   AND e.OPER_DT = :operDate" + 
+            "   AND e.OPER_DT = :operationDate" + 
             " GROUP BY DECODE(i.ITEM_NAME_TX, '_Transfer', 1, 0)," + 
             "       u.USER_NAME_TX",
     nativeQuery = true)
-    Set<IDailySummaryByUser> findDailySummaryByUser(LocalDate operDate);
+    Set<IDailySummaryByUser> findDailySummaryByUser(LocalDate operationDate);
 
 }

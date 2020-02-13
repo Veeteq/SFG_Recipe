@@ -35,6 +35,10 @@ public class DailySummaryByUserDTO {
         return newVal;
     }
 
+    public BigDecimal getTotal() {
+        return nonTransferCredit.add(nonTransferDebit).add(transferCredit).add(transferDebit);
+    }
+    
     @Override
     public String toString() {
         return "PivotReportRow [userName=" + userName + ", nonTransferCredit=" + nonTransferCredit

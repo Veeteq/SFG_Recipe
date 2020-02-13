@@ -139,7 +139,7 @@ public class BudgetDataLoader implements CommandLineRunner {
                 String[] values = line.split("\t");
                 String comment = values[5].equals("null") ? null : values[5];
                 Expense expense = Expense.builder()
-                        .operDate(DateUtil.parse(values[1]))
+                        .operationDate(DateUtil.parse(values[1]))
                         .item(itemService.findById(Long.parseLong(values[2])))
                         .count(new BigDecimal(values[3]))
                         .price(new BigDecimal(values[4]))

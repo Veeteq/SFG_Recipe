@@ -1,7 +1,7 @@
 package com.wojnarowicz.sfg.recipe.service.impl;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ItemServiceImpl implements ItemService {
 
-    private ItemRepository itemRepository;
+    private final ItemRepository itemRepository;
 
     @Autowired
     public ItemServiceImpl(ItemRepository itemRepository) {
@@ -36,12 +36,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Set<Item> findAll() {
+    public List<Item> findAll() {
         log.debug("ItemService: findAll");
-        Set<Item> items = new TreeSet<>();
+        List<Item> items = new ArrayList<>();
 
-        itemRepository.findAllByOrderById().iterator().forEachRemaining(items::add);
-
+        itemRepository.findAllByOrderByName().forEach(items::add);
+        
         return items;
     }
 }

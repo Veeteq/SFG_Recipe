@@ -124,7 +124,7 @@ public class BudgetTestDataLoader implements CommandLineRunner {
     private void loadExpenses(boolean toBeLoaded) {
     	Expense expense1 = Expense.builder()
     			.id(72126L)
-    			.operDate(LocalDate.of(2019, Month.OCTOBER, 25))
+    			.operationDate(LocalDate.of(2019, Month.OCTOBER, 25))
     			.item(itemRepository.findById(248L).orElse(null))
     			.count(BigDecimal.valueOf(2))
     			.price(BigDecimal.valueOf(14.90))
@@ -135,7 +135,7 @@ public class BudgetTestDataLoader implements CommandLineRunner {
     	
     	Expense expense2 = Expense.builder()
     			.id(71882L)
-    			.operDate(LocalDate.of(2019, Month.OCTOBER, 25))
+    			.operationDate(LocalDate.of(2019, Month.OCTOBER, 25))
     			.item(itemRepository.findById(458L).orElse(null))
     			.count(BigDecimal.valueOf(1))
     			.price(BigDecimal.valueOf(130))
@@ -146,7 +146,7 @@ public class BudgetTestDataLoader implements CommandLineRunner {
     	
     	Expense expense3 = Expense.builder()
     			.id(71868L)
-    			.operDate(LocalDate.of(2019, Month.OCTOBER, 25))
+    			.operationDate(LocalDate.of(2019, Month.OCTOBER, 25))
     			.item(itemRepository.findById(514L).orElse(null))
     			.count(BigDecimal.valueOf(1))
     			.price(BigDecimal.valueOf(3495))
@@ -157,7 +157,7 @@ public class BudgetTestDataLoader implements CommandLineRunner {
     	
     	Expense expense4 = Expense.builder()
     			.id(71867L)
-    			.operDate(LocalDate.of(2019, Month.OCTOBER, 25))
+    			.operationDate(LocalDate.of(2019, Month.OCTOBER, 25))
     			.item(itemRepository.findById(513L).orElse(null))
     			.count(BigDecimal.valueOf(1))
     			.price(BigDecimal.valueOf(566,28))
@@ -168,7 +168,7 @@ public class BudgetTestDataLoader implements CommandLineRunner {
     	
     	Expense expense5 = Expense.builder()
     			.id(71866L)
-    			.operDate(LocalDate.of(2019, Month.OCTOBER, 25))
+    			.operationDate(LocalDate.of(2019, Month.OCTOBER, 25))
     			.item(itemRepository.findById(513L).orElse(null))
     			.count(BigDecimal.valueOf(1))
     			.price(BigDecimal.valueOf(1344,86))

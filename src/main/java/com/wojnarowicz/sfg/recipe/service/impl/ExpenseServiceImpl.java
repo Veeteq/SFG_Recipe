@@ -10,9 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wojnarowicz.sfg.recipe.command.ExpenseCommand;
+import com.wojnarowicz.sfg.recipe.command.IncomeCommand;
 import com.wojnarowicz.sfg.recipe.converter.ExpenseCommandToExpense;
 import com.wojnarowicz.sfg.recipe.converter.ExpenseToExpenseCommand;
+import com.wojnarowicz.sfg.recipe.converter.IncomeCommandToIncome;
+import com.wojnarowicz.sfg.recipe.converter.IncomeToIncomeCommand;
 import com.wojnarowicz.sfg.recipe.domain.Expense;
+import com.wojnarowicz.sfg.recipe.domain.Income;
 import com.wojnarowicz.sfg.recipe.dto.DailySummaryByUserDTO;
 import com.wojnarowicz.sfg.recipe.dto.IDailySummaryByUser;
 import com.wojnarowicz.sfg.recipe.repository.ExpenseRepository;
@@ -31,12 +35,19 @@ public class ExpenseServiceImpl implements ExpenseService {
 	private final ExpenseCommandToExpense expenseCommandToExpense;
 	private final ExpenseToExpenseCommand expenseToExpenseCommand;
 
+    private final IncomeCommandToIncome incomeCommandToIncome;
+	private final IncomeToIncomeCommand incomeToIncomeCommand;
+
     @Autowired
-    public ExpenseServiceImpl(ExpenseRepository expenseRepository, IncomeRepository incomeRepository, ExpenseCommandToExpense expenseCommandToExpense, ExpenseToExpenseCommand expenseToExpenseCommand) {
+    public ExpenseServiceImpl(ExpenseRepository expenseRepository, IncomeRepository incomeRepository,
+            ExpenseCommandToExpense expenseCommandToExpense, ExpenseToExpenseCommand expenseToExpenseCommand,
+            IncomeCommandToIncome incomeCommandToIncome, IncomeToIncomeCommand incomeToIncomeCommand) {
         this.expenseRepository = expenseRepository;
         this.incomeRepository = incomeRepository;
         this.expenseCommandToExpense = expenseCommandToExpense;
         this.expenseToExpenseCommand = expenseToExpenseCommand;
+        this.incomeCommandToIncome = incomeCommandToIncome;
+        this.incomeToIncomeCommand = incomeToIncomeCommand;
     }
 
     @Override
@@ -49,12 +60,12 @@ public class ExpenseServiceImpl implements ExpenseService {
     	return expenses;
     }
 
-	@Override
-	public Set<Expense> findByOperDate(LocalDate operDate) {
-		log.debug("ExpenseService: findByOperDate: " + operDate.toString());
+    @Override
+	public Set<Expense> findExpByOperDate(LocalDate operDate) {
+		log.debug("ExpenseService: findExpByOperDate: " + operDate.toString());
     	Set<Expense> expenses = new HashSet<>();
 
-    	expenseRepository.findByOperDate(operDate).iterator().forEachRemaining(expenses::add);
+    	expenseRepository.findByOperationDate(operDate).iterator().forEachRemaining(expenses::add);
     	
     	log.debug("Records found: " + expenses.size());
 
@@ -62,6 +73,18 @@ public class ExpenseServiceImpl implements ExpenseService {
 	}
 
     @Override
+    public Set<Income> findIncByOperDate(LocalDate operDate) {
+        log.debug("ExpenseService: findIncByOperDate: " + operDate.toString());
+        Set<Income> incomes = new HashSet<>();
+
+        incomeRepository.findByOperationDate(operDate).iterator().forEachRemaining(incomes::add);
+        
+        log.debug("Records found: " + incomes.size());
+
+        return incomes;
+    }
+
+	@Override
     public Expense save(Expense expense) {
         log.debug("ExpenseService: save");
         return expenseRepository.save(expense);
@@ -74,6 +97,15 @@ public class ExpenseServiceImpl implements ExpenseService {
         Expense savedExpense = expenseRepository.save(expense);
         log.debug("expense saved with id: ", savedExpense.getId());
         return expenseToExpenseCommand.convert(savedExpense);
+    }
+
+    @Override
+    public IncomeCommand saveIncomeCommand(IncomeCommand incomeCommand) {
+        Income income = incomeCommandToIncome.convert(incomeCommand);
+
+        Income savedIncome = incomeRepository.save(income);
+        log.debug("income saved with id: ", savedIncome.getId());
+        return incomeToIncomeCommand.convert(savedIncome);
     }
 
     @Override

@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.wojnarowicz.sfg.recipe.command.ExpenseCommand;
+import com.wojnarowicz.sfg.recipe.command.IncomeCommand;
 import com.wojnarowicz.sfg.recipe.service.CategoryService;
 import com.wojnarowicz.sfg.recipe.service.ExpenseService;
 import com.wojnarowicz.sfg.recipe.service.ItemService;
@@ -29,7 +31,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BudgetController {
 
+    private static final String LAST_USED_USER_ID = "lastUsedUserId";
     private final static String BUDGET_EXPENSE_FORM = "budget/expenseform";
+    private final static String BUDGET_INCOME_FORM = "budget/incomeform";
     private final static String BUDGET_INDEX_PAGE = "budget/index";
     
     private final CategoryService categoryService;
@@ -92,7 +96,7 @@ public class BudgetController {
         }
                             
     	ExpenseCommand expenseCommand = new ExpenseCommand();
-    	expenseCommand.setOperDate(operDate);
+    	expenseCommand.setOperationDate(operDate);
     	expenseCommand.setCount(BigDecimal.ONE);
     	expenseCommand.setPrice(BigDecimal.ZERO);
         
@@ -104,8 +108,8 @@ public class BudgetController {
         model.addAttribute("currentDate", operDate);
         model.addAttribute("users", userService.findAll());
         model.addAttribute("items", itemService.findAll());
-        model.addAttribute("expenses", expenseService.findByOperDate(operDate));
-        model.addAttribute("dailySummary", expenseService.getDailySummaryByUser(operDate));
+        model.addAttribute("expenses", expenseService.findExpByOperDate(operDate));
+        model.addAttribute("dailySummary", expenseService.getDailySummaryByUser(operDate).values());
         
         return BUDGET_EXPENSE_FORM;
     }
@@ -114,18 +118,13 @@ public class BudgetController {
     public String addOrUpdateExpense(@Valid @ModelAttribute(name = "expense") ExpenseCommand expenseCommand, BindingResult result, Model model) {
         log.debug("BudgetController: addOrUpdateExpense");
 
-        LocalDate operDate = expenseCommand.getOperDate();
+        LocalDate operDate = expenseCommand.getOperationDate();
         
-        System.out.println(operDate.toString());
-        System.out.println(expenseCommand.getCount());
-        expenseCommand.setPrice(expenseCommand.getPrice().add(BigDecimal.ONE));
-    	
-    	//System.out.println(expenseCommand.getItem().getCategory().getName());
-    	
     	model.addAttribute("currentDate", operDate);
     	model.addAttribute("users", userService.findAll());
     	model.addAttribute("items", itemService.findAll());
-    	model.addAttribute("expenses", expenseService.findByOperDate(operDate));
+    	model.addAttribute("expenses", expenseService.findExpByOperDate(operDate));
+    	model.addAttribute("dailySummary", expenseService.getDailySummaryByUser(operDate).values());
 
         if(result.hasErrors()) {
             result.getAllErrors().forEach(err -> {
@@ -136,9 +135,63 @@ public class BudgetController {
         
     	expenseService.saveExpenseCommand(expenseCommand);
     	
-        return "redirect:/expense/new";
+    	return "redirect:/expense/new?date=" + operDate;
     }
 
+    @RequestMapping(path = "/income/new", method = RequestMethod.GET)
+    public String getIncomeForm(@RequestParam(required = false) String date, Model model, @ModelAttribute(LAST_USED_USER_ID) String lastUsedUserId) {
+        log.debug("BudgetController: getIncomeForm");
+        
+        LocalDate operDate;
+        
+        if(date == null || date.isEmpty()) {
+            operDate = LocalDate.now();            
+        } else {
+            operDate = DateUtil.parse(date);
+        }
+                            
+        IncomeCommand incomeCommand = new IncomeCommand();
+        incomeCommand.setOperationDate(operDate);
+        incomeCommand.setCount(BigDecimal.ONE);
+        incomeCommand.setPrice(BigDecimal.ZERO);
+        
+        model.addAttribute(LAST_USED_USER_ID, lastUsedUserId);
+        model.addAttribute("dateFormat", dateFormat());        
+        model.addAttribute("income", incomeCommand);
+        model.addAttribute("currentDate", operDate);
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("items", itemService.findAll());
+        model.addAttribute("incomes", expenseService.findIncByOperDate(operDate));
+        model.addAttribute("dailySummary", expenseService.getDailySummaryByUser(operDate).values());
+        
+        return BUDGET_INCOME_FORM;
+    }
+
+    @PostMapping(path = "/income")
+    public String addOrUpdateIncome(@Valid @ModelAttribute(name = "income") IncomeCommand incomeCommand, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+        log.debug("BudgetController: addOrUpdateIncome");
+
+        LocalDate operDate = incomeCommand.getOperationDate();
+        
+        model.addAttribute("currentDate", operDate);
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("items", itemService.findAll());
+        model.addAttribute("incomes", expenseService.findIncByOperDate(operDate));
+        model.addAttribute("dailySummary", expenseService.getDailySummaryByUser(operDate).values());
+
+        if(result.hasErrors()) {
+            result.getAllErrors().forEach(err -> {
+                log.debug(err.toString());
+            });
+            return BUDGET_INCOME_FORM;
+        }
+        
+        expenseService.saveIncomeCommand(incomeCommand);
+    
+        redirectAttributes.addFlashAttribute(LAST_USED_USER_ID, incomeCommand.getUser().getId());
+        return "redirect:/income/new?date=" + operDate;
+    }
+    
     @ModelAttribute(name = "dateFormat")
     public String dateFormat() {
         return "yyyy-MM-dd";

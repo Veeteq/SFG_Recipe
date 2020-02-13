@@ -37,7 +37,7 @@ public class Expense extends BaseEntity {
 	
 	@Column(name = "oper_dt")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate operDate;
+	private LocalDate operationDate;
 	
 	@ManyToOne
     @JoinColumn(name="user_id", nullable=false)

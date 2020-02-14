@@ -8,6 +8,11 @@ $(document).ready(function($) {
   $("#count, #price").on("keydown keyup", function() {
     sum();
   });
+  
+  $('.table .eventBtn').on('click', function(event){
+	  console.log("Bla");
+	  $('.user-form #userFormModal').modal();
+  })
 });
 
 $(function sum() {

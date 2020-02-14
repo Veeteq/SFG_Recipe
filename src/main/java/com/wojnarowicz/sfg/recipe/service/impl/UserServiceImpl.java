@@ -1,9 +1,8 @@
 package com.wojnarowicz.sfg.recipe.service.impl;
 
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.wojnarowicz.sfg.recipe.domain.User;
@@ -35,12 +34,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    public Set<User> findAll() {
+    public Page<User> findAll(Pageable pageable) {
         log.debug("ItemService: findAll");
-        Set<User> users = new TreeSet<>();
 
-        userRepository.findAllByOrderById().iterator().forEachRemaining(users::add);
-
-        return users;
+        return userRepository.findAllByOrderById(pageable);
     }
 }

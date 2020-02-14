@@ -1,9 +1,8 @@
 package com.wojnarowicz.sfg.recipe.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.wojnarowicz.sfg.recipe.domain.Item;
@@ -36,12 +35,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> findAll() {
+    public Page<Item> findAll(Pageable pageable) {
         log.debug("ItemService: findAll");
-        List<Item> items = new ArrayList<>();
 
-        itemRepository.findAllByOrderByName().forEach(items::add);
-        
-        return items;
+        return itemRepository.findAllByOrderByName(pageable);
     }
 }

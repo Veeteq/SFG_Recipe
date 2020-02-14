@@ -1,6 +1,7 @@
 package com.wojnarowicz.sfg.recipe.service;
 
-import java.util.Set;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.wojnarowicz.sfg.recipe.domain.User;
 
@@ -10,5 +11,5 @@ public interface UserService {
 
     User save(User user);
 
-    Set<User> findAll();
+    Page<User> findAll(Pageable pageable);
 }

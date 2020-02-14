@@ -103,6 +103,12 @@
                       </tr>
                     </tbody>
                   </table>
+                  <hr/>
+                  <ul class="nav nav-pills">
+                    <li class="nav-item" th:each="i : ${#numbers.sequence(0, totalPages-1)}">
+                      <a href="#" th:href="@{/items(page=${i})}" th:text="${i+1}" class="nav-link" th:classappend="${number}==${i}?'active':''"></a>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>

@@ -13,3 +13,5 @@ https://www.udemy.com/course/spring-framework-5-beginner-to-guru/
 - https://tempusdominus.github.io/bootstrap-4/
 - https://github.com/ppatil9096/books
 - https://api.predic8.de/shop/docs#/
+- https://www.youtube.com/watch?v=lIgFe20dYq4
+- https://www.youtube.com/watch?v=LryZYdpiPPs

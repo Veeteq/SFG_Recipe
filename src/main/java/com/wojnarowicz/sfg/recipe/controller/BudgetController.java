@@ -6,6 +6,9 @@ import java.time.LocalDate;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +22,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.wojnarowicz.sfg.recipe.command.ExpenseCommand;
 import com.wojnarowicz.sfg.recipe.command.IncomeCommand;
+import com.wojnarowicz.sfg.recipe.domain.Item;
+import com.wojnarowicz.sfg.recipe.domain.User;
 import com.wojnarowicz.sfg.recipe.service.CategoryService;
 import com.wojnarowicz.sfg.recipe.service.ExpenseService;
 import com.wojnarowicz.sfg.recipe.service.ItemService;
@@ -57,19 +62,27 @@ public class BudgetController {
     }
     
     @RequestMapping(path = {"/users","/users/"})    
-    public String listUsers(Model model) {
+    public String listUsers(Model model, Pageable pageable) {
         log.debug("BudgetController: listUsers");
         
-        model.addAttribute("users", userService.findAll());
+        Page<User> pages = userService.findAll(pageable);
+                
+        model.addAttribute("number", pages.getNumber());
+        model.addAttribute("totalPages", pages.getTotalPages());
+        model.addAttribute("users", pages.getContent());
         
         return "budget/users";
     }
 
     @RequestMapping(path = {"/items","/items/"})    
-    public String listItems(Model model) {
+    public String listItems(Model model, @RequestParam(defaultValue="0") int page) {
         log.debug("BudgetController: listItems");
         
-        model.addAttribute("items", itemService.findAll());
+        Page<Item> pages = itemService.findAll(PageRequest.of(page, 50));
+        
+        model.addAttribute("number", pages.getNumber());
+        model.addAttribute("totalPages", pages.getTotalPages());
+        model.addAttribute("items", pages.getContent());
         
         return "budget/items";
     }
@@ -106,8 +119,8 @@ public class BudgetController {
         model.addAttribute("dateFormat", dateFormat());        
         model.addAttribute("expense", expenseCommand);
         model.addAttribute("currentDate", operDate);
-        model.addAttribute("users", userService.findAll());
-        model.addAttribute("items", itemService.findAll());
+        model.addAttribute("users", userService.findAll(null));
+        model.addAttribute("items", itemService.findAll(null));
         model.addAttribute("expenses", expenseService.findExpByOperDate(operDate));
         model.addAttribute("dailySummary", expenseService.getDailySummaryByUser(operDate).values());
         
@@ -121,8 +134,8 @@ public class BudgetController {
         LocalDate operDate = expenseCommand.getOperationDate();
         
     	model.addAttribute("currentDate", operDate);
-    	model.addAttribute("users", userService.findAll());
-    	model.addAttribute("items", itemService.findAll());
+    	model.addAttribute("users", userService.findAll(null));
+    	model.addAttribute("items", itemService.findAll(null));
     	model.addAttribute("expenses", expenseService.findExpByOperDate(operDate));
     	model.addAttribute("dailySummary", expenseService.getDailySummaryByUser(operDate).values());
 
@@ -159,8 +172,8 @@ public class BudgetController {
         model.addAttribute("dateFormat", dateFormat());        
         model.addAttribute("income", incomeCommand);
         model.addAttribute("currentDate", operDate);
-        model.addAttribute("users", userService.findAll());
-        model.addAttribute("items", itemService.findAll());
+        model.addAttribute("users", userService.findAll(null));
+        model.addAttribute("items", itemService.findAll(null));
         model.addAttribute("incomes", expenseService.findIncByOperDate(operDate));
         model.addAttribute("dailySummary", expenseService.getDailySummaryByUser(operDate).values());
         
@@ -174,8 +187,8 @@ public class BudgetController {
         LocalDate operDate = incomeCommand.getOperationDate();
         
         model.addAttribute("currentDate", operDate);
-        model.addAttribute("users", userService.findAll());
-        model.addAttribute("items", itemService.findAll());
+        model.addAttribute("users", userService.findAll(null));
+        model.addAttribute("items", itemService.findAll(null));
         model.addAttribute("incomes", expenseService.findIncByOperDate(operDate));
         model.addAttribute("dailySummary", expenseService.getDailySummaryByUser(operDate).values());
 

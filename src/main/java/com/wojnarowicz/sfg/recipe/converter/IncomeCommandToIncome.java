@@ -22,7 +22,7 @@ public class IncomeCommandToIncome implements Converter<IncomeCommand, Income>{
         income.setOperationDate(source.getOperationDate());
         income.setUser(source.getUser());
         income.setItem(source.getItem());
-        income.setAmount(source.getCount().multiply(source.getPrice()));
+        income.setAmount(source.getPrice());
         income.setComment(source.getComment());
         return income;
     }

@@ -16,9 +16,9 @@ public interface IncomeRepository extends CrudRepository<Income, Long>{
     @Query(value = "SELECT DECODE(i.ITEM_NAME_TX, '_Transfer', 1, 0) transferFlag," + 
             "       u.USER_NAME_TX userName," + 
             "       sum(e.INCO_PRIC_AM) amount" + 
-            "  FROM INCOMES AS e," + 
-            "       ITEMS AS i," + 
-            "       USERS AS u" + 
+            "  FROM INCOMES e," + 
+            "       ITEMS i," + 
+            "       USERS u" + 
             " WHERE e.ITEM_ID = i.ITEM_ID" + 
             "   AND e.USER_ID = u.USER_ID" + 
             "   AND e.OPER_DT = :operationDate" + 

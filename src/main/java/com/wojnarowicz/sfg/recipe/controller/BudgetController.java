@@ -96,7 +96,7 @@ public class BudgetController {
     }
 
     @RequestMapping(path = "/expense/new", method = RequestMethod.GET)
-    public String getExpenseForm(@RequestParam(required = false) String date, Model model) {
+    public String getExpenseForm(@RequestParam(required = false) String date, Model model, @ModelAttribute(LAST_USED_USER_ID) String lastUsedUserId) {
         log.debug("BudgetController: getExpenseForm");
         log.debug("BudgetController: PathVariable date: " + date);
         
@@ -113,13 +113,11 @@ public class BudgetController {
     	expenseCommand.setCount(BigDecimal.ONE);
     	expenseCommand.setPrice(BigDecimal.ZERO);
         
-        log.debug("dateFormat: " + dateFormat());
-        log.debug("currentDate: " + operDate.toString());
-        
+        model.addAttribute(LAST_USED_USER_ID, lastUsedUserId);
         model.addAttribute("dateFormat", dateFormat());        
         model.addAttribute("expense", expenseCommand);
         model.addAttribute("currentDate", operDate);
-        model.addAttribute("users", userService.findAll(null));
+        model.addAttribute("users", userService.getUsers());
         model.addAttribute("items", itemService.findAll(null));
         model.addAttribute("expenses", expenseService.findExpByOperDate(operDate));
         model.addAttribute("dailySummary", expenseService.getDailySummaryByUser(operDate).values());
@@ -128,7 +126,7 @@ public class BudgetController {
     }
 
     @PostMapping(path = "/expense")
-    public String addOrUpdateExpense(@Valid @ModelAttribute(name = "expense") ExpenseCommand expenseCommand, BindingResult result, Model model) {
+    public String addOrUpdateExpense(@Valid @ModelAttribute(name = "expense") ExpenseCommand expenseCommand, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         log.debug("BudgetController: addOrUpdateExpense");
 
         LocalDate operDate = expenseCommand.getOperationDate();
@@ -148,6 +146,7 @@ public class BudgetController {
         
     	expenseService.saveExpenseCommand(expenseCommand);
     	
+        redirectAttributes.addFlashAttribute(LAST_USED_USER_ID, expenseCommand.getUser().getId());
     	return "redirect:/expense/new?date=" + operDate;
     }
 

@@ -3,6 +3,9 @@ package com.wojnarowicz.sfg.recipe.domain;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -21,6 +24,12 @@ import lombok.experimental.SuperBuilder;
 @GenericGenerator(name = "default_seq", 
                   strategy = "com.wojnarowicz.sfg.recipe.domain.BudgetSequenceGenerator", 
                   parameters = {@Parameter(name="sequence_name", value="user_seq") } )
+@NamedStoredProcedureQuery(name = "getUsers", 
+                           procedureName = "budget.getUsers", 
+                           resultClasses = User.class, 
+                           parameters = {
+        @StoredProcedureParameter(type = void.class, mode = ParameterMode.REF_CURSOR)
+})
 @Getter
 @Setter
 @NoArgsConstructor

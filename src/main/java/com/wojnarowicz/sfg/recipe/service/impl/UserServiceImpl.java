@@ -1,5 +1,7 @@
 package com.wojnarowicz.sfg.recipe.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +39,12 @@ public class UserServiceImpl implements UserService {
     public Page<User> findAll(Pageable pageable) {
         log.debug("ItemService: findAll");
 
-        return userRepository.findAllByOrderById(pageable);
+        return userRepository.findAllByOrderById(pageable);        
+    }
+    
+    public List<User> getUsers() {
+        log.debug("ItemService: getUsers");
+        
+        return userRepository.getUsers();
     }
 }

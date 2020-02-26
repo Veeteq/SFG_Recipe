@@ -117,7 +117,7 @@ public class BudgetController {
         model.addAttribute("dateFormat", dateFormat());        
         model.addAttribute("expense", expenseCommand);
         model.addAttribute("currentDate", operDate);
-        model.addAttribute("users", userService.getUsers());
+        model.addAttribute("users", userService.findAll(null));
         model.addAttribute("items", itemService.findAll(null));
         model.addAttribute("expenses", expenseService.findExpByOperDate(operDate));
         model.addAttribute("dailySummary", expenseService.getDailySummaryByUser(operDate).values());

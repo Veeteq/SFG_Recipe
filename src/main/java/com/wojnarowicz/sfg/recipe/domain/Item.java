@@ -1,6 +1,7 @@
 package com.wojnarowicz.sfg.recipe.domain;
 
 import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -32,7 +33,7 @@ public class Item extends NamedEntity implements Comparable<Item> {
 
     private static final long serialVersionUID = 1L;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="cate_id", nullable=false)
     private Category category;
 

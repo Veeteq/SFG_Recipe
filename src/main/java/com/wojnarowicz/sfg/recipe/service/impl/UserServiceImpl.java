@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        log.debug("UserService: save");
+        log.debug("save");
         return userRepository.save(user);
     }
 

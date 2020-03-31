@@ -2,26 +2,30 @@ package com.wojnarowicz.sfg.recipe.controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.wojnarowicz.sfg.recipe.command.ExpenseCommand;
 import com.wojnarowicz.sfg.recipe.command.IncomeCommand;
+import com.wojnarowicz.sfg.recipe.domain.Category;
 import com.wojnarowicz.sfg.recipe.domain.Item;
 import com.wojnarowicz.sfg.recipe.domain.User;
 import com.wojnarowicz.sfg.recipe.service.CategoryService;
@@ -74,6 +78,22 @@ public class BudgetController {
         return "budget/users";
     }
 
+    @GetMapping(path="users/{id}/show")
+    @ResponseBody
+    public User findUserById(@PathVariable(name="id") Long id) {
+        log.debug("findUserById");
+        
+        return userService.findById(id);
+    }
+    
+    @PostMapping(path="/users")
+    public String addOrUpdateUser(@Valid @ModelAttribute(name = "user") User user, BindingResult result, Model model) {
+        log.debug("addOrUpdateUser");
+        userService.save(user);
+        
+        return "redirect:/users"; 
+    }
+    
     @RequestMapping(path = {"/items","/items/"})    
     public String listItems(Model model, @RequestParam(defaultValue="0") int page) {
         log.debug("BudgetController: listItems");
@@ -87,12 +107,36 @@ public class BudgetController {
         return "budget/items";
     }
 
+    @GetMapping(path="items/{id}/show")
+    @ResponseBody
+    public Item findItemById(@PathVariable(name="id") Long id) {
+        log.debug("findItemById");
+        
+        return itemService.findById(id);
+    }
+    
+    @PostMapping(path="/items")
+    public String addOrUpdateItem(@Valid @ModelAttribute(name = "item") Item item, BindingResult result, Model model) {
+        log.debug("addOrUpdateItem");
+        itemService.save(item);
+        
+        return "redirect:/items"; 
+    }
+    
     @RequestMapping(path = {"/categories","/categories/"})    
     public String listCategories(Model model) {
-        log.debug("BudgetController: listCategories");
+        log.debug("listCategories");
 
         model.addAttribute("categories", categoryService.findAll());
         return "budget/categories";
+    }
+    
+    @GetMapping(path = "/categories/all")
+    @ResponseBody
+    public Set<Category> listCategoriesAll() {
+        log.debug("listCategoriesAll");
+        
+        return categoryService.findAll();
     }
 
     @RequestMapping(path = "/expense/new", method = RequestMethod.GET)

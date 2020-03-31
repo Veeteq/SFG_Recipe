@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,6 +42,7 @@ public class Category extends NamedEntity implements Comparable<Category> {
     private CategoryType categoryType;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private Set<Item> items;
 
     @Override

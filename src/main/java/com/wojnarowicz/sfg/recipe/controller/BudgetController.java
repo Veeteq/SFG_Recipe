@@ -2,6 +2,7 @@ package com.wojnarowicz.sfg.recipe.controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -130,7 +131,23 @@ public class BudgetController {
         model.addAttribute("categories", categoryService.findAll());
         return "budget/categories";
     }
-    
+
+    @GetMapping(path="categories/{id}/show")
+    @ResponseBody
+    public Category findCategoryById(@PathVariable(name="id") Long id) {
+        log.debug("findCategoryById");
+        
+        return categoryService.findById(id);
+    }
+
+    @PostMapping(path="/categories")
+    public String addOrUpdateCategory(@Valid @ModelAttribute(name = "category") Category category, BindingResult result, Model model) {
+        log.debug("addOrUpdateItem");
+        categoryService.save(category);
+        
+        return "redirect:/categories"; 
+    }
+
     @GetMapping(path = "/categories/all")
     @ResponseBody
     public Set<Category> listCategoriesAll() {
@@ -269,6 +286,14 @@ public class BudgetController {
     	return "budget/sample05";
     }
 
+    @RequestMapping(value="/expense/expenseCommentAutocomplete")
+    @ResponseBody
+    public List<String> getExpenseComments(@RequestParam(name="term", required=false, defaultValue="") String term) {
+        log.debug("getExpenseComments");
+
+        return expenseService.getExpenseComments(term.toLowerCase());
+    }
+    
     /*
     @InitBinder
     private void dateBinder(WebDataBinder binder) {

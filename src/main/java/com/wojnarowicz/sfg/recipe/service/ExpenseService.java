@@ -1,6 +1,7 @@
 package com.wojnarowicz.sfg.recipe.service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,5 +26,7 @@ public interface ExpenseService {
     Map<String, DailySummaryByUserDTO> getDailySummaryByUser(LocalDate operDate);
 
     IncomeCommand saveIncomeCommand(IncomeCommand income);
+
+    List<String> getExpenseComments(String term);
 
 }

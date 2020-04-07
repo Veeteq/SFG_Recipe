@@ -52,4 +52,11 @@ public class Category extends NamedEntity implements Comparable<Category> {
         }
         return -1;
     }
+
+    @Override
+    public String toString() {
+        return "Category [categoryType=" + categoryType + ", name=" + getName() + ", id=" + getId() + "]";
+    }
+    
+    
 }

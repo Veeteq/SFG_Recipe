@@ -1,6 +1,7 @@
 package com.wojnarowicz.sfg.recipe.repository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.Query;
@@ -27,4 +28,10 @@ public interface ExpenseRepository extends CrudRepository<Expense, Long>{
     nativeQuery = true)
     Set<IDailySummaryByUser> findDailySummaryByUser(LocalDate operationDate);
 
+    @Query(value = "SELECT DISTINCT e.EXPE_COMM_TX" +
+                   "  FROM EXPENSES e" +
+                   " WHERE lower(e.EXPE_COMM_TX) like %:term%" +
+                   " ORDER BY e.EXPE_COMM_TX",
+           nativeQuery = true)        
+    List<String> getExpenseComments(String term);
 }

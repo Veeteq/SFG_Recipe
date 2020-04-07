@@ -31,7 +31,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category save(Category category) {
-        log.debug("CategoryService: save");
+        log.debug("save");
+
         return categoryRepository.save(category);
     }
 

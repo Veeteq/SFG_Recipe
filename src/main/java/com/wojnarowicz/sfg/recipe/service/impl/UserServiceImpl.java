@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) {
-        log.debug("UserService: findById");
+        log.debug("findById");
         return userRepository.findById(id).orElse(null);
     }
 
@@ -37,13 +37,13 @@ public class UserServiceImpl implements UserService {
     }
 
     public Page<User> findAll(Pageable pageable) {
-        log.debug("ItemService: findAll");
+        log.debug("findAll");
 
         return userRepository.findAllByOrderById(pageable);        
     }
     
     public List<User> getUsers() {
-        log.debug("ItemService: getUsers");
+        log.debug("getUsers");
         
         return userRepository.getUsers();
     }

@@ -31,6 +31,20 @@ $(document).ready(function($) {
     sum();
   });
   
+  $('.newCategoryBtn, .table .editCategoryBtn').on('click', function(event){
+	  console.log("Edit category");
+	  event.preventDefault();
+	  
+	  var href = $(this).attr('href');
+	  $.get(href, function(category, status){
+		  $('.category-form #id').val(category.id);
+		  $('.category-form #name').val(category.name);		  
+		  $("#categoryType").val(category.categoryType).attr('selected','selected');
+	  });
+	  
+	  $('.category-form #categoryFormModal').modal();
+  });
+  
   $('.newUserBtn, .table .editUserBtn').on('click', function(event){
 	  console.log("Edit user");
 	  event.preventDefault();
@@ -111,4 +125,11 @@ $(function () {
 $(".custom-file-input").on("change", function() {
   var fileName = $(this).val().split("\\").pop();
   $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+
+$(function() {
+	$("#comment-input").autocomplete({
+		source: "expenseCommentAutocomplete",
+	    minLength: 3
+	});
 });

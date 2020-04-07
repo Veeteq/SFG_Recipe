@@ -3,6 +3,7 @@ package com.wojnarowicz.sfg.recipe.service.impl;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -129,5 +130,10 @@ public class ExpenseServiceImpl implements ExpenseService {
             });
         }
         return rowsByUser;
+    }
+
+    @Override
+    public List<String> getExpenseComments(String term) {
+        return expenseRepository.getExpenseComments(term);
     }
 }

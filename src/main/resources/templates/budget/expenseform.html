@@ -229,6 +229,7 @@
                     <th>Total</th>
                     <th>User</th>
                     <th>Comment</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -239,12 +240,9 @@
                     <td th:text="${expense.getTotal()}" class="text-sm-right pr-3">Total</td>
                     <td th:text="${expense.user.name}">User</td>
                     <td th:text="${expense.comment}">Comment</td>
-                    <!-- 
-                    <td><a href="#" th:href="@{'/category/' + ${expense.id} + '/show'}">View</a>
-                        <a href="#" th:href="@{'/category/' + ${expense.id} + '/edit'}">Edit</a>
-                        <a href="#" th:href="@{'/category/' + ${expense.id} + '/delete'}">Delete</a>
+                    <td>                      
+                        <p><span class="glyphicon glyphicon-search"></span></p>                      
                     </td>
-                     -->
                   </tr>
                   <tr>
                     <td colspan="3"><b>Total:</b></td>

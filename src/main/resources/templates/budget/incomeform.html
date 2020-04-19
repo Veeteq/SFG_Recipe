@@ -224,6 +224,7 @@
                     <th>Total</th>
                     <th>User</th>
                     <th>Comment</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -234,6 +235,11 @@
                     <td th:text="${income.getTotal()}" class="text-sm-right pr-3">Total</td>
                     <td th:text="${income.user.name}">User</td>
                     <td th:text="${income.comment}">Comment</td>
+                    <td>
+                        <button type="button" class="btn btn-default btn-lg">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star
+                        </button>
+                    </td>
                     <!-- 
                     <td><a href="#" th:href="@{'/category/' + ${income.id} + '/show'}">View</a>
                         <a href="#" th:href="@{'/category/' + ${income.id} + '/edit'}">Edit</a>

@@ -42,7 +42,8 @@ public class Income extends BaseEntity {
     @JoinColumn(name="item_id", nullable=false)
     private Item item;
     
-    @Column(name = "inco_pric_am")
+    //@Column(name = "inco_pric_am")
+    @Column(name = "inco_item_am")
     private BigDecimal amount;
     
     @Column(name = "inco_comm_tx")

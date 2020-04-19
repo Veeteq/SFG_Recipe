@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -50,6 +51,7 @@ public class BudgetController {
     private final ItemService itemService;
     private final UserService userService;
     private final ExpenseService expenseService;
+    private List<String> allComments;
     
     @Autowired
     public BudgetController(CategoryService categoryService, ItemService itemService, UserService userService, ExpenseService expenseService) {
@@ -291,7 +293,12 @@ public class BudgetController {
     public List<String> getExpenseComments(@RequestParam(name="term", required=false, defaultValue="") String term) {
         log.debug("getExpenseComments");
 
-        return expenseService.getExpenseComments(term.toLowerCase());
+        if(term.length() == 3) {
+            allComments = expenseService.getExpenseComments(term.toLowerCase());
+        }
+
+        List<String> comments = allComments.stream().filter(comment -> comment.contains(term)).collect(Collectors.toList());
+        return comments;
     }
     
     /*

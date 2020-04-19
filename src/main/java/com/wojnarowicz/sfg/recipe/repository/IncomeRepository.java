@@ -15,7 +15,7 @@ public interface IncomeRepository extends CrudRepository<Income, Long>{
    
     @Query(value = "SELECT DECODE(i.ITEM_NAME_TX, '_Transfer', 1, 0) transferFlag," + 
             "       u.USER_NAME_TX userName," + 
-            "       sum(e.INCO_PRIC_AM) amount" + 
+            "       sum(e.INCO_ITEM_AM) amount" + 
             "  FROM INCOMES e," + 
             "       ITEMS i," + 
             "       USERS u" + 
